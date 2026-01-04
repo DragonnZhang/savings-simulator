@@ -11,7 +11,7 @@
 - [x] **Phase 3: Basic Projection (US1)**
 - [x] **Phase 4: Visualization (US2)**
 - [x] **Phase 5: Interactive Overrides (US3)**
-- [ ] **Phase 6: Polish**
+- [x] **Phase 6: Polish**
 
 ## Dependencies
 
@@ -73,8 +73,8 @@
 
 *Goal: Styling and final verification.*
 
-- [ ] T022 Apply premium styling/theming (CSS modules or global CSS) to all components <!-- id: 21 -->
-- [ ] T023 Run full manual verification of all User Stories <!-- id: 22 -->
+- [x] T022 Apply premium styling/theming (CSS modules or global CSS) to all components <!-- id: 21 -->
+- [x] T023 Run full manual verification of all User Stories <!-- id: 22 -->
 
 ## Parallel Execution Candidates
 
