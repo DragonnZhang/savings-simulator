@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 
-const isProd = process.env.NODE_ENV === 'production';
+const isGithubActions = process.env.GITHUB_ACTIONS === 'true';
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -9,8 +9,8 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  basePath: isProd ? '/savings-simulator' : '',
-  assetPrefix: isProd ? '/savings-simulator/' : '',
+  basePath: isGithubActions ? '/savings-simulator' : '',
+  assetPrefix: isGithubActions ? '/savings-simulator/' : '',
 };
 
 export default nextConfig;
