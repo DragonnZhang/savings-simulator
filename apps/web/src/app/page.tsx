@@ -5,6 +5,7 @@ import SimulationForm from '@/components/SimulationForm';
 import ResultsTable from '@/components/ResultsTable';
 import SavingsChart from '@/components/SavingsChart';
 import OverrideModal from '@/components/OverrideModal';
+import GitHubLink from '@/components/GitHubLink';
 import { calculate } from 'savings-core';
 import type { SimulationConfig, YearlyOverride, YearlyResult } from 'savings-core';
 
@@ -116,6 +117,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+      <GitHubLink />
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <header className="text-center mb-12">
@@ -128,9 +130,21 @@ export default function Home() {
         </header>
 
         {/* Main Content */}
-        <div className="grid lg:grid-cols-2 gap-8">
+        {/* Main Content */}
+        {/* Chart Section */}
+        {state.results.length > 0 && (
+          <div className="mb-8 bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 shadow-xl card-hover">
+            <h2 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
+              积蓄增长趋势
+            </h2>
+            <SavingsChart results={state.results} />
+          </div>
+        )}
+
+        <div className="grid lg:grid-cols-2 gap-8 opacity-0 animate-[slideUp_0.5s_ease-out_forwards]">
           {/* Form Section */}
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 shadow-xl card-hover glow-emerald">
+          <div className="glass rounded-2xl p-6 shadow-xl card-hover glow-emerald">
             <h2 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
               参数设置
@@ -139,7 +153,7 @@ export default function Home() {
           </div>
 
           {/* Results Section */}
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 shadow-xl card-hover glow-purple">
+          <div className="glass rounded-2xl p-6 shadow-xl card-hover glow-purple">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-semibold text-white flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-purple-400"></span>
@@ -160,17 +174,6 @@ export default function Home() {
             <ResultsTable results={state.results} onRowClick={handleRowClick} />
           </div>
         </div>
-
-        {/* Chart Section */}
-        {state.results.length > 0 && (
-          <div className="mt-8 bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 shadow-xl card-hover">
-            <h2 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
-              积蓄增长趋势
-            </h2>
-            <SavingsChart results={state.results} />
-          </div>
-        )}
       </div>
 
       {/* Override Modal */}

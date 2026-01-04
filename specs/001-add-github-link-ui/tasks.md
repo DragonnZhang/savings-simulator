@@ -7,37 +7,37 @@
 
 Prerequisites and project initialization.
 
-- [ ] T001 Verify project running locally `npm run dev` <!-- id: 5 -->
+- [x] T001 Verify project running locally `npm run dev` <!-- id: 5 -->
 
 ## Phase 2: Foundational
 
 Core blocking tasks.
 
-- [ ] T002 Verify global styles and Font configuration in `apps/web/src/app/globals.css` and `apps/web/src/app/layout.tsx` <!-- id: 6 -->
+- [x] T002 Verify global styles and Font configuration in `apps/web/src/app/globals.css` and `apps/web/src/app/layout.tsx` <!-- id: 6 -->
 
 ## Phase 3: User Story 1 - Access Source Code (P1)
 
 **Goal**: Visitors can easily find and visit the source code repository.
 **Independent Test**: GitHub logo is visible in top-right and opens correct URL in new tab.
 
-- [ ] T003 [US1] Create GitHub Icon SVG component (or inline) in `apps/web/src/components/icons/GitHubIcon.tsx` <!-- id: 7 -->
-- [ ] T004 [US1] Create `GitHubLink` component in `apps/web/src/components/GitHubLink.tsx` with premium styling (glass effect) <!-- id: 8 -->
-- [ ] T005 [P] [US1] Add `GitHubLink` to `apps/web/src/app/page.tsx` (absolute positioned top-right) <!-- id: 9 -->
-- [ ] T006 [US1] Verify responsive positioning (mobile check) <!-- id: 10 -->
+- [x] T003 [US1] Create GitHub Icon SVG component (or inline) in `apps/web/src/components/icons/GitHubIcon.tsx` <!-- id: 7 -->
+- [x] T004 [US1] Create `GitHubLink` component in `apps/web/src/components/GitHubLink.tsx` with premium styling (glass effect) <!-- id: 8 -->
+- [x] T005 [P] [US1] Add `GitHubLink` to `apps/web/src/app/page.tsx` (absolute positioned top-right) <!-- id: 9 -->
+- [x] T006 [US1] Verify responsive positioning (mobile check) <!-- id: 10 -->
 
 ## Phase 4: User Story 2 - Premium Visual Experience (P1)
 
 **Goal**: Application feels high-quality and trustworthy with modern aesthetics.
 **Independent Test**: UI elements react to hover, typography is modern, gradients are used.
 
-- [ ] T007 [P] [US2] Audit and update `apps/web/src/app/page.tsx` to ensure all major sections use `card-hover` and `glass` effects <!-- id: 11 -->
-- [ ] T008 [US2] Enhance typography in `apps/web/src/app/globals.css` if needed to strict match "modern sans-serif" (verify Inter/Geist usage) <!-- id: 12 -->
-- [ ] T009 [US2] Add subtle appearance animations to main container in `apps/web/src/app/page.tsx` <!-- id: 13 -->
+- [x] T007 [P] [US2] Audit and update `apps/web/src/app/page.tsx` to ensure all major sections use `card-hover` and `glass` effects <!-- id: 11 -->
+- [x] T008 [US2] Enhance typography in `apps/web/src/app/globals.css` if needed to strict match "modern sans-serif" (verify Inter/Geist usage) <!-- id: 12 -->
+- [x] T009 [US2] Add subtle appearance animations to main container in `apps/web/src/app/page.tsx` <!-- id: 13 -->
 
 ## Final Phase: Polish
 
-- [ ] T010 Validate Accessibility (WCAG contrast) for new elements <!-- id: 14 -->
-- [ ] T011 Final visual inspection against spec requirements <!-- id: 15 -->
+- [x] T010 Validate Accessibility (WCAG contrast) for new elements <!-- id: 14 -->
+- [x] T011 Final visual inspection against spec requirements <!-- id: 15 -->
 
 ## Dependencies
 

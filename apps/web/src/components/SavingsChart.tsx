@@ -26,12 +26,7 @@ interface SavingsChartProps {
 }
 
 function formatCurrency(value: number): string {
-  if (value >= 1000000) {
-    return `¥${(value / 1000000).toFixed(1)}M`;
-  } else if (value >= 1000) {
-    return `¥${(value / 1000).toFixed(0)}K`;
-  }
-  return `¥${value}`;
+  return `¥${value.toLocaleString()}`;
 }
 
 export default function SavingsChart({ results }: SavingsChartProps) {
@@ -55,7 +50,7 @@ export default function SavingsChart({ results }: SavingsChartProps) {
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           data={chartData}
-          margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+          margin={{ top: 10, right: 30, left: 80, bottom: 0 }}
         >
           <defs>
             <linearGradient id="colorTotal" x1="0" y1="0" x2="0" y2="1">

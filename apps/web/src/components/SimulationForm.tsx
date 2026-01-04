@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface FormData {
   initialIncome: number;
@@ -31,6 +31,16 @@ export default function SimulationForm({ onSubmit, initialData }: SimulationForm
     ...initialData,
   });
 
+  // Calculate whenever formData changes
+  useEffect(() => {
+    onSubmit({
+      ...formData,
+      incomeGrowthRate: formData.incomeGrowthRate / 100,
+      expenseGrowthRate: formData.expenseGrowthRate / 100,
+      investmentReturnRate: formData.investmentReturnRate / 100,
+    });
+  }, [formData, onSubmit]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -39,19 +49,8 @@ export default function SimulationForm({ onSubmit, initialData }: SimulationForm
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Convert percentage inputs to decimal for the library
-    onSubmit({
-      ...formData,
-      incomeGrowthRate: formData.incomeGrowthRate / 100,
-      expenseGrowthRate: formData.expenseGrowthRate / 100,
-      investmentReturnRate: formData.investmentReturnRate / 100,
-    });
-  };
-
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Income Section */}
         <div className="space-y-4">
@@ -66,7 +65,7 @@ export default function SimulationForm({ onSubmit, initialData }: SimulationForm
               name="initialIncome"
               value={formData.initialIncome}
               onChange={handleChange}
-              className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow hover:shadow-lg"
               min="0"
             />
           </div>
@@ -81,7 +80,7 @@ export default function SimulationForm({ onSubmit, initialData }: SimulationForm
               value={formData.incomeGrowthRate}
               onChange={handleChange}
               step="0.1"
-              className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow hover:shadow-lg"
             />
           </div>
         </div>
@@ -99,7 +98,7 @@ export default function SimulationForm({ onSubmit, initialData }: SimulationForm
               name="initialExpenses"
               value={formData.initialExpenses}
               onChange={handleChange}
-              className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow hover:shadow-lg"
               min="0"
             />
           </div>
@@ -114,7 +113,7 @@ export default function SimulationForm({ onSubmit, initialData }: SimulationForm
               value={formData.expenseGrowthRate}
               onChange={handleChange}
               step="0.1"
-              className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow hover:shadow-lg"
             />
           </div>
         </div>
@@ -133,7 +132,7 @@ export default function SimulationForm({ onSubmit, initialData }: SimulationForm
               value={formData.investmentReturnRate}
               onChange={handleChange}
               step="0.1"
-              className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow hover:shadow-lg"
             />
           </div>
         </div>
@@ -153,18 +152,11 @@ export default function SimulationForm({ onSubmit, initialData }: SimulationForm
               onChange={handleChange}
               min="1"
               max="100"
-              className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-shadow hover:shadow-lg"
             />
           </div>
         </div>
       </div>
-
-      <button
-        type="submit"
-        className="w-full py-3 px-6 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold rounded-lg shadow-lg hover:from-emerald-600 hover:to-teal-700 transition-all duration-200 transform hover:scale-[1.02]"
-      >
-        开始模拟 (Simulate)
-      </button>
     </form>
   );
 }
