@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import GoogleAdSense from "@/components/GoogleAdSense";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,10 +46,6 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
-        <div className="container mx-auto px-4 py-8 text-center text-gray-500 text-sm">
-           <p>© {new Date().getFullYear()} Savings Simulator. All rights reserved.</p>
-        </div>
-        <GoogleAdSense pId={process.env.NEXT_PUBLIC_ADSENSE_PID || "8595589014201175"} />
       </body>
     </html>
   );

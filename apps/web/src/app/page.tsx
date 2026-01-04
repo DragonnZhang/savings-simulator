@@ -6,7 +6,6 @@ import ResultsTable from '@/components/ResultsTable';
 import SavingsChart from '@/components/SavingsChart';
 import OverrideModal from '@/components/OverrideModal';
 import GitHubLink from '@/components/GitHubLink';
-import AdUnit from '@/components/AdUnit';
 import { calculate } from 'savings-core';
 import type { SimulationConfig, YearlyOverride, YearlyResult } from 'savings-core';
 
@@ -129,10 +128,6 @@ export default function Home() {
             Savings Simulator - 预测您的财务未来
           </p>
         </header>
-
-        <div className="mb-8">
-          <AdUnit slotId="1234567890" className="w-full text-center" />
-        </div>
 
         {/* Main Content */}
         {/* Main Content */}
