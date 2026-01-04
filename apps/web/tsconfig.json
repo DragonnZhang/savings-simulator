@@ -19,7 +19,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "savings-core": ["../../packages/savings-core/src/index.ts"]
     }
   },
   "include": [

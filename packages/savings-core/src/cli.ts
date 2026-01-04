@@ -7,8 +7,8 @@
  *   npx tsx src/cli.ts --income 100000 --expense 50000 --years 10
  */
 
-import { calculate } from './calculator.js';
-import { SimulationConfigSchema } from './types.js';
+import { calculate } from './calculator';
+import { SimulationConfigSchema } from './types';
 
 function parseArgs(args: string[]): Record<string, string> {
   const result: Record<string, string> = {};

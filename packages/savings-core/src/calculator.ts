@@ -2,7 +2,7 @@
  * Core calculation logic for savings simulation.
  */
 
-import type { SimulationConfig, YearlyOverride, YearlyResult, SimulationResult } from './types.js';
+import type { SimulationConfig, YearlyOverride, YearlyResult, SimulationResult } from './types';
 
 /**
  * Round a number to 2 decimal places for display.
