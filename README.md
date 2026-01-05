@@ -8,6 +8,7 @@ A modern, interactive financial simulation tool designed to help users visualize
 
 - **Real-time Simulation**: Instantly see how changes in income, expenses, and investment returns affect your long-term savings. No clicks required.
 - **Interactive Visualization**: Dynamic area charts showing total savings, net savings, and investment returns over time.
+- **Bilingual Support (i18n)**: Full support for Chinese (Simplified) and English, with automatic browser language detection and preference persistence.
 - **Yearly Overrides**: Granular control to adjust income or expenses for specific years (e.g., career milestones, major purchases).
 - **Premium UI/UX**:
   - Glassmorphism design with backdrop blur effects.

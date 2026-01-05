@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from 'recharts';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface YearlyResult {
   year: number;
@@ -25,25 +26,31 @@ interface SavingsChartProps {
   results: YearlyResult[];
 }
 
-function formatCurrency(value: number): string {
-  return `¥${value.toLocaleString()}`;
+function formatCurrency(value: number, locale: string): string {
+  return locale === 'zh' ? `¥${value.toLocaleString()}` : `$${value.toLocaleString()}`;
 }
 
 export default function SavingsChart({ results }: SavingsChartProps) {
+  const t = useTranslations('Table');
+  const tIndex = useTranslations('Index');
+  const locale = useLocale();
+
   if (results.length === 0) {
     return (
       <div className="h-80 flex items-center justify-center text-gray-400">
-        请先运行模拟查看图表
+        {tIndex('emptyStateChart') || 'Run simulation to see chart'}
       </div>
     );
   }
 
   const chartData = results.map((r) => ({
-    name: `第${r.year}年`,
-    总积蓄: r.totalSavings,
-    净储蓄: r.netSavings,
-    投资收益: r.investmentReturn,
+    name: t('yearLabel', { year: r.year }),
+    totalSavings: r.totalSavings,
+    netSavings: r.netSavings,
+    investmentReturn: r.investmentReturn,
   }));
+
+  const currencyFormatter = (value: number) => formatCurrency(value, locale);
 
   return (
     <div className="h-80">
@@ -75,7 +82,7 @@ export default function SavingsChart({ results }: SavingsChartProps) {
           <YAxis
             stroke="#9ca3af"
             tick={{ fill: '#9ca3af', fontSize: 12 }}
-            tickFormatter={formatCurrency}
+            tickFormatter={currencyFormatter}
           />
           <Tooltip
             contentStyle={{
@@ -84,21 +91,23 @@ export default function SavingsChart({ results }: SavingsChartProps) {
               borderRadius: '8px',
               color: '#fff',
             }}
-            formatter={(value: number | undefined) => value !== undefined ? formatCurrency(value) : ''}
+            formatter={(value: number | undefined) => value !== undefined ? currencyFormatter(value) : ''}
           />
           <Legend
             wrapperStyle={{ color: '#9ca3af' }}
           />
           <Area
             type="monotone"
-            dataKey="总积蓄"
+            dataKey="totalSavings"
+            name={t('totalSavings')}
             stroke="#a855f7"
             fillOpacity={1}
             fill="url(#colorTotal)"
           />
           <Area
             type="monotone"
-            dataKey="投资收益"
+            dataKey="investmentReturn"
+            name={t('investmentReturn')}
             stroke="#fbbf24"
             fillOpacity={1}
             fill="url(#colorReturn)"

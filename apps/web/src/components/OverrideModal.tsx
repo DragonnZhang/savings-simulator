@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface OverrideModalProps {
   isOpen: boolean;
@@ -19,15 +20,9 @@ export default function OverrideModal({
   onSave,
   onClose,
 }: OverrideModalProps) {
-  const [income, setIncome] = useState('');
-  const [expenses, setExpenses] = useState('');
-
-  useEffect(() => {
-    if (isOpen) {
-      setIncome(currentIncome.toString());
-      setExpenses(currentExpenses.toString());
-    }
-  }, [isOpen, currentIncome, currentExpenses]);
+  const t = useTranslations('Modal');
+  const [income, setIncome] = useState(currentIncome.toString());
+  const [expenses, setExpenses] = useState(currentExpenses.toString());
 
   if (!isOpen) return null;
 
@@ -53,13 +48,13 @@ export default function OverrideModal({
       {/* Modal Content */}
       <div className="relative bg-gray-800 rounded-2xl p-6 shadow-2xl border border-gray-700 w-full max-w-md mx-4 modal-content">
         <h3 className="text-xl font-semibold text-white mb-6">
-          调整第 {yearIndex + 1} 年参数
+          {t('title', { year: yearIndex + 1 })}
         </h3>
 
         <div className="space-y-4">
           <div>
             <label htmlFor="modal-income" className="block text-sm text-gray-300 mb-1">
-              年收入 (Income)
+              {t('income')}
             </label>
             <input
               type="number"
@@ -71,7 +66,7 @@ export default function OverrideModal({
           </div>
           <div>
             <label htmlFor="modal-expenses" className="block text-sm text-gray-300 mb-1">
-              年支出 (Expenses)
+              {t('expenses')}
             </label>
             <input
               type="number"
@@ -89,14 +84,14 @@ export default function OverrideModal({
             onClick={onClose}
             className="flex-1 py-2 px-4 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 transition-colors"
           >
-            取消
+            {t('cancel')}
           </button>
           <button
             type="button"
             onClick={handleSave}
             className="flex-1 py-2 px-4 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg hover:from-emerald-600 hover:to-teal-700 transition-all"
           >
-            保存
+            {t('save')}
           </button>
         </div>
       </div>

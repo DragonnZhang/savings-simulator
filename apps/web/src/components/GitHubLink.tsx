@@ -11,7 +11,6 @@ export default function GitHubLink({ className = '' }: GitHubLinkProps) {
       target="_blank"
       rel="noopener noreferrer"
       className={`
-        fixed top-4 right-4 z-50
         flex items-center justify-center
         w-10 h-10 md:w-12 md:h-12
         rounded-full
