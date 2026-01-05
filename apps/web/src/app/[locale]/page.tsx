@@ -1,6 +1,6 @@
 'use client';
 
-import { useReducer, useCallback, useState } from 'react';
+import { useReducer, useCallback, useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import SimulationForm from '@/components/SimulationForm';
 import ResultsTable from '@/components/ResultsTable';
@@ -154,10 +154,12 @@ export default function Home() {
     currentExpenses: 0,
   });
 
+  const [isMounted, setIsMounted] = useState(false);
   const [goalSuggest, setGoalSuggest] = useState<number | undefined>(undefined);
 
   // Load scenarios on mount
-  useState(() => {
+  useEffect(() => {
+    setIsMounted(true);
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('scenarios_v1');
       if (saved) {
@@ -169,7 +171,7 @@ export default function Home() {
         }
       }
     }
-  });
+  }, []);
 
   const handleSimulate = useCallback((config: SimulationConfig) => {
     dispatch({ type: 'RUN_SIMULATION', config });
@@ -228,15 +230,15 @@ export default function Home() {
       color: '#a855f7', // purple-500
       results: state.results
     }] : []),
-    // Saved active scenarios
-    ...state.scenarios
+    // Saved active scenarios (only shown after mounting to avoid hydration mismatch)
+    ...(isMounted ? state.scenarios
       .filter(s => state.activeScenarioIds.includes(s.id))
       .map(s => ({
         id: s.id,
         name: s.name,
         color: s.color,
         results: calculate(s.config, s.overrides).results
-      }))
+      })) : [])
   ];
 
   return (

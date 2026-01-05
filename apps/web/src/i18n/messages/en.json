@@ -15,6 +15,7 @@
     "annualInflation": "Annual Inflation Rate (%)",
     "expenses": "Expenses",
     "annualExpenses": "Annual Expenses",
+    "annualExpenseGrowth": "Annual Expense Growth (%)",
     "investment": "Investment",
     "annualReturn": "Annual Return (%)",
     "duration": "Duration",

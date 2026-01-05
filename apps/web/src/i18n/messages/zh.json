@@ -15,6 +15,7 @@
     "annualInflation": "年通胀率 (Inflation Rate %)",
     "expenses": "支出 Expenses",
     "annualExpenses": "年支出 (Annual Expenses)",
+    "annualExpenseGrowth": "支出年涨幅 (Expense Growth %)",
     "investment": "投资 Investment",
     "annualReturn": "年化收益率 (Annual Return %)",
     "duration": "时长 Duration",

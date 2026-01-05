@@ -141,7 +141,7 @@ export default function SimulationForm({ onSubmit, onGoalChange, suggestedIncome
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label htmlFor="expenseGrowthRate" className="block text-sm text-gray-300 mb-1">
-                {t('annualGrowth')}
+                {t('annualExpenseGrowth')}
               </label>
               <input
                 type="number"
