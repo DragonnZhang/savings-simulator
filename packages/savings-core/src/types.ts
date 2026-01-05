@@ -50,3 +50,18 @@ export interface SimulationResult {
   results: YearlyResult[];
   totalSavings: number; // Final year total
 }
+
+/**
+ * Supported locales
+ */
+export type Locale = 'en' | 'zh';
+
+/**
+ * List of supported locales
+ */
+export const LOCALES: Locale[] = ['en', 'zh'];
+
+/**
+ * Default locale
+ */
+export const DEFAULT_LOCALE: Locale = 'zh';

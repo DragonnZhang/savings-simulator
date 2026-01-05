@@ -1,0 +1,40 @@
+{
+  "Index": {
+    "title": "Savings Simulator",
+    "subtitle": "Predict your financial future",
+    "chartTitle": "Savings Growth Trend",
+    "configTitle": "Parameters",
+    "resultsTitle": "Simulation Results",
+    "finalSavings": "Final Savings",
+    "rowClickTip": "💡 Click any row to adjust parameters for that year"
+  },
+  "Form": {
+    "income": "Income",
+    "annualIncome": "Annual Income",
+    "annualGrowth": "Annual Growth (%)",
+    "expenses": "Expenses",
+    "annualExpenses": "Annual Expenses",
+    "investment": "Investment",
+    "annualReturn": "Annual Return (%)",
+    "duration": "Duration",
+    "years": "Simulation Years"
+  },
+  "Table": {
+    "year": "Year",
+    "income": "Income",
+    "expenses": "Expenses",
+    "investmentReturn": "Investment Return",
+    "netSavings": "Net Savings",
+    "totalSavings": "Total Savings",
+    "yearLabel": "Year {year}",
+    "overridden": "Adjusted",
+    "emptyState": "Please enter parameters and click \"Start Simulation\" to see results"
+  },
+  "Modal": {
+    "title": "Adjust Year {year} Parameters",
+    "income": "Annual Income",
+    "expenses": "Annual Expenses",
+    "cancel": "Cancel",
+    "save": "Save"
+  }
+}

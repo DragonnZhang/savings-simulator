@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface FormData {
   initialIncome: number;
@@ -26,6 +27,7 @@ const defaultValues: FormData = {
 };
 
 export default function SimulationForm({ onSubmit, initialData }: SimulationFormProps) {
+  const t = useTranslations('Form');
   const [formData, setFormData] = useState<FormData>({
     ...defaultValues,
     ...initialData,
@@ -54,10 +56,10 @@ export default function SimulationForm({ onSubmit, initialData }: SimulationForm
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Income Section */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-emerald-400">收入 Income</h3>
+          <h3 className="text-lg font-semibold text-emerald-400">{t('income')}</h3>
           <div>
             <label htmlFor="initialIncome" className="block text-sm text-gray-300 mb-1">
-              年收入 (Annual Income)
+              {t('annualIncome')}
             </label>
             <input
               type="number"
@@ -71,7 +73,7 @@ export default function SimulationForm({ onSubmit, initialData }: SimulationForm
           </div>
           <div>
             <label htmlFor="incomeGrowthRate" className="block text-sm text-gray-300 mb-1">
-              年涨幅 (Annual Growth %)
+              {t('annualGrowth')}
             </label>
             <input
               type="number"
@@ -87,10 +89,10 @@ export default function SimulationForm({ onSubmit, initialData }: SimulationForm
 
         {/* Expenses Section */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-rose-400">支出 Expenses</h3>
+          <h3 className="text-lg font-semibold text-rose-400">{t('expenses')}</h3>
           <div>
             <label htmlFor="initialExpenses" className="block text-sm text-gray-300 mb-1">
-              年支出 (Annual Expenses)
+              {t('annualExpenses')}
             </label>
             <input
               type="number"
@@ -104,7 +106,7 @@ export default function SimulationForm({ onSubmit, initialData }: SimulationForm
           </div>
           <div>
             <label htmlFor="expenseGrowthRate" className="block text-sm text-gray-300 mb-1">
-              年涨幅 (Annual Growth %)
+              {t('annualGrowth')}
             </label>
             <input
               type="number"
@@ -120,10 +122,10 @@ export default function SimulationForm({ onSubmit, initialData }: SimulationForm
 
         {/* Investment Section */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-amber-400">投资 Investment</h3>
+          <h3 className="text-lg font-semibold text-amber-400">{t('investment')}</h3>
           <div>
             <label htmlFor="investmentReturnRate" className="block text-sm text-gray-300 mb-1">
-              年化收益率 (Annual Return %)
+              {t('annualReturn')}
             </label>
             <input
               type="number"
@@ -139,10 +141,10 @@ export default function SimulationForm({ onSubmit, initialData }: SimulationForm
 
         {/* Duration Section */}
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-sky-400">时长 Duration</h3>
+          <h3 className="text-lg font-semibold text-sky-400">{t('duration')}</h3>
           <div>
             <label htmlFor="durationYears" className="block text-sm text-gray-300 mb-1">
-              模拟年数 (Years)
+              {t('years')}
             </label>
             <input
               type="number"

@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslations, useLocale } from 'next-intl';
+
 interface YearlyResult {
   year: number;
   income: number;
@@ -15,8 +17,8 @@ interface ResultsTableProps {
   onRowClick?: (yearIndex: number) => void;
 }
 
-function formatCurrency(value: number): string {
-  return value.toLocaleString('zh-CN', {
+function formatCurrency(value: number, locale: string): string {
+  return value.toLocaleString(locale === 'zh' ? 'zh-CN' : 'en-US', {
     style: 'currency',
     currency: 'CNY',
     minimumFractionDigits: 0,
@@ -25,10 +27,13 @@ function formatCurrency(value: number): string {
 }
 
 export default function ResultsTable({ results, onRowClick }: ResultsTableProps) {
+  const t = useTranslations('Table');
+  const locale = useLocale();
+
   if (results.length === 0) {
     return (
       <div className="text-center py-12 text-gray-400">
-        请输入参数并点击「开始模拟」查看结果
+        {t('emptyState')}
       </div>
     );
   }
@@ -38,12 +43,12 @@ export default function ResultsTable({ results, onRowClick }: ResultsTableProps)
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-gray-700">
-            <th className="px-4 py-3 text-left text-gray-400 font-medium">年份</th>
-            <th className="px-4 py-3 text-right text-emerald-400 font-medium">收入</th>
-            <th className="px-4 py-3 text-right text-rose-400 font-medium">支出</th>
-            <th className="px-4 py-3 text-right text-amber-400 font-medium">投资收益</th>
-            <th className="px-4 py-3 text-right text-sky-400 font-medium">净储蓄</th>
-            <th className="px-4 py-3 text-right text-purple-400 font-medium">总积蓄</th>
+            <th className="px-4 py-3 text-left text-gray-400 font-medium">{t('year')}</th>
+            <th className="px-4 py-3 text-right text-emerald-400 font-medium">{t('income')}</th>
+            <th className="px-4 py-3 text-right text-rose-400 font-medium">{t('expenses')}</th>
+            <th className="px-4 py-3 text-right text-amber-400 font-medium">{t('investmentReturn')}</th>
+            <th className="px-4 py-3 text-right text-sky-400 font-medium">{t('netSavings')}</th>
+            <th className="px-4 py-3 text-right text-purple-400 font-medium">{t('totalSavings')}</th>
           </tr>
         </thead>
         <tbody>
@@ -56,25 +61,25 @@ export default function ResultsTable({ results, onRowClick }: ResultsTableProps)
               } ${row.isOverridden ? 'bg-amber-900/20' : ''}`}
             >
               <td className="px-4 py-3 text-gray-300">
-                第 {row.year} 年
+                {t('yearLabel', { year: row.year })}
                 {row.isOverridden && (
-                  <span className="ml-2 text-xs text-amber-400">已调整</span>
+                  <span className="ml-2 text-xs text-amber-400">{t('overridden')}</span>
                 )}
               </td>
               <td className="px-4 py-3 text-right text-emerald-300 font-mono">
-                {formatCurrency(row.income)}
+                {formatCurrency(row.income, locale)}
               </td>
               <td className="px-4 py-3 text-right text-rose-300 font-mono">
-                {formatCurrency(row.expenses)}
+                {formatCurrency(row.expenses, locale)}
               </td>
               <td className="px-4 py-3 text-right text-amber-300 font-mono">
-                {formatCurrency(row.investmentReturn)}
+                {formatCurrency(row.investmentReturn, locale)}
               </td>
               <td className="px-4 py-3 text-right text-sky-300 font-mono">
-                {formatCurrency(row.netSavings)}
+                {formatCurrency(row.netSavings, locale)}
               </td>
               <td className="px-4 py-3 text-right text-purple-300 font-mono font-semibold">
-                {formatCurrency(row.totalSavings)}
+                {formatCurrency(row.totalSavings, locale)}
               </td>
             </tr>
           ))}
