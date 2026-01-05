@@ -43,7 +43,8 @@ export function calculate(
     if (i === 0) {
       income = override?.income ?? config.initialIncome;
     } else {
-      income = override?.income ?? round2(previousIncome * (1 + config.incomeGrowthRate));
+      // Use salaryGrowthRate
+      income = override?.income ?? round2(previousIncome * (1 + config.salaryGrowthRate));
     }
 
     // Calculate expenses for this year
@@ -51,7 +52,9 @@ export function calculate(
     if (i === 0) {
       expenses = override?.expenses ?? config.initialExpenses;
     } else {
-      expenses = override?.expenses ?? round2(previousExpenses * (1 + config.expenseGrowthRate));
+      // Apply lifestyle creep (expenseGrowthRate) AND market inflation (inflationRate)
+      const combinedExpenseGrowth = config.expenseGrowthRate + config.inflationRate;
+      expenses = override?.expenses ?? round2(previousExpenses * (1 + combinedExpenseGrowth));
     }
 
     // Calculate investment return (from previous total savings)
@@ -83,4 +86,46 @@ export function calculate(
     results,
     totalSavings: results.length > 0 ? results[results.length - 1].totalSavings : 0,
   };
+}
+
+/**
+ * Goal Seeking Utility
+ * Finds the required initialIncome to reach a targetAmount in targetYear.
+ * Uses Bisection Method (Binary Search).
+ */
+export function goalSeek(
+  config: SimulationConfig,
+  overrides: YearlyOverride[],
+  targetAmount: number,
+  targetYear: number
+): number {
+  if (targetYear <= 0 || targetYear > config.durationYears) return 0;
+
+  let low = 0;
+  let high = 1000000000; // $1B upper bound for search
+  let iterations = 0;
+  const maxIterations = 50; // Plenty for high precision
+  const tolerance = 0.01; // $0.01 precision
+
+  while (iterations < maxIterations) {
+    const mid = (low + high) / 2;
+    const testConfig = { ...config, initialIncome: mid, durationYears: targetYear };
+    const result = calculate(testConfig, overrides);
+    
+    const diff = result.totalSavings - targetAmount;
+
+    if (Math.abs(diff) < tolerance) {
+      return round2(mid);
+    }
+
+    if (diff < 0) {
+      low = mid;
+    } else {
+      high = mid;
+    }
+    
+    iterations++;
+  }
+
+  return round2((low + high) / 2);
 }

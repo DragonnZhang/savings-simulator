@@ -8,31 +8,41 @@ import SavingsChart from '@/components/SavingsChart';
 import OverrideModal from '@/components/OverrideModal';
 import GitHubLink from '@/components/GitHubLink';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
-import { calculate } from 'savings-core';
-import type { SimulationConfig, YearlyOverride, YearlyResult } from 'savings-core';
+import { calculate, goalSeek } from 'savings-core';
+import type { SimulationConfig, YearlyOverride, YearlyResult, Scenario } from 'savings-core';
+import ScenarioManager from '@/components/ScenarioManager';
 
 interface AppState {
   config: SimulationConfig | null;
   overrides: YearlyOverride[];
   results: YearlyResult[];
   totalSavings: number;
+  scenarios: Scenario[];
+  activeScenarioIds: string[];
 }
 
 type Action =
   | { type: 'RUN_SIMULATION'; config: SimulationConfig }
   | { type: 'ADD_OVERRIDE'; override: YearlyOverride }
-  | { type: 'CLEAR_OVERRIDES' };
+  | { type: 'CLEAR_OVERRIDES' }
+  | { type: 'SAVE_SCENARIO'; name: string; color: string }
+  | { type: 'DELETE_SCENARIO'; id: string }
+  | { type: 'TOGGLE_SCENARIO'; id: string }
+  | { type: 'LOAD_SCENARIOS'; scenarios: Scenario[] };
 
 function reducer(state: AppState, action: Action): AppState {
+  let newState: AppState;
+  
   switch (action.type) {
     case 'RUN_SIMULATION': {
       const result = calculate(action.config, state.overrides);
-      return {
+      newState = {
         ...state,
         config: action.config,
         results: result.results,
         totalSavings: result.totalSavings,
       };
+      break;
     }
     case 'ADD_OVERRIDE': {
       const newOverrides = [
@@ -41,30 +51,83 @@ function reducer(state: AppState, action: Action): AppState {
       ];
       if (state.config) {
         const result = calculate(state.config, newOverrides);
-        return {
+        newState = {
           ...state,
           overrides: newOverrides,
           results: result.results,
           totalSavings: result.totalSavings,
         };
+      } else {
+        newState = { ...state, overrides: newOverrides };
       }
-      return { ...state, overrides: newOverrides };
+      break;
     }
     case 'CLEAR_OVERRIDES': {
       if (state.config) {
         const result = calculate(state.config, []);
-        return {
+        newState = {
           ...state,
           overrides: [],
           results: result.results,
           totalSavings: result.totalSavings,
         };
+      } else {
+        newState = { ...state, overrides: [] };
       }
-      return { ...state, overrides: [] };
+      break;
+    }
+    case 'SAVE_SCENARIO': {
+      if (!state.config) return state;
+      const newScenario: Scenario = {
+        id: crypto.randomUUID(),
+        name: action.name,
+        config: { ...state.config },
+        overrides: [...state.overrides],
+        color: action.color,
+      };
+      newState = {
+        ...state,
+        scenarios: [...state.scenarios, newScenario],
+        activeScenarioIds: [...state.activeScenarioIds, newScenario.id],
+      };
+      break;
+    }
+    case 'DELETE_SCENARIO': {
+      newState = {
+        ...state,
+        scenarios: state.scenarios.filter((s) => s.id !== action.id),
+        activeScenarioIds: state.activeScenarioIds.filter((id) => id !== action.id),
+      };
+      break;
+    }
+    case 'TOGGLE_SCENARIO': {
+      const isActive = state.activeScenarioIds.includes(action.id);
+      newState = {
+        ...state,
+        activeScenarioIds: isActive
+          ? state.activeScenarioIds.filter((id) => id !== action.id)
+          : [...state.activeScenarioIds, action.id],
+      };
+      break;
+    }
+    case 'LOAD_SCENARIOS': {
+      newState = {
+        ...state,
+        scenarios: action.scenarios,
+        activeScenarioIds: action.scenarios.map(s => s.id),
+      };
+      break;
     }
     default:
       return state;
   }
+
+  // Persist scenarios on change
+  if (['SAVE_SCENARIO', 'DELETE_SCENARIO', 'LOAD_SCENARIOS'].includes(action.type)) {
+    localStorage.setItem('scenarios_v1', JSON.stringify(newState.scenarios));
+  }
+  
+  return newState;
 }
 
 const initialState: AppState = {
@@ -72,6 +135,8 @@ const initialState: AppState = {
   overrides: [],
   results: [],
   totalSavings: 0,
+  scenarios: [],
+  activeScenarioIds: [],
 };
 
 export default function Home() {
@@ -87,6 +152,23 @@ export default function Home() {
     yearIndex: 0,
     currentIncome: 0,
     currentExpenses: 0,
+  });
+
+  const [goalSuggest, setGoalSuggest] = useState<number | undefined>(undefined);
+
+  // Load scenarios on mount
+  useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('scenarios_v1');
+      if (saved) {
+        try {
+          const scenarios = JSON.parse(saved);
+          dispatch({ type: 'LOAD_SCENARIOS', scenarios });
+        } catch (e) {
+          console.error('Failed to load scenarios', e);
+        }
+      }
+    }
   });
 
   const handleSimulate = useCallback((config: SimulationConfig) => {
@@ -118,6 +200,45 @@ export default function Home() {
     setModalState((prev) => ({ ...prev, isOpen: false }));
   }, []);
 
+  const handleGoalChange = useCallback((targetAmount: number, targetYear: number) => {
+    if (state.config) {
+      const suggest = goalSeek(state.config, state.overrides, targetAmount, targetYear);
+      setGoalSuggest(suggest);
+    }
+  }, [state.config, state.overrides]);
+
+  const handleSaveScenario = useCallback((name: string, color: string) => {
+    dispatch({ type: 'SAVE_SCENARIO', name, color });
+  }, []);
+
+  const handleDeleteScenario = useCallback((id: string) => {
+    dispatch({ type: 'DELETE_SCENARIO', id });
+  }, []);
+
+  const handleToggleScenario = useCallback((id: string) => {
+    dispatch({ type: 'TOGGLE_SCENARIO', id });
+  }, []);
+
+  // Prepare chart data: Active scenarios + Current simulation
+  const chartScenarios = [
+    // Current simulation (always shown if results exist)
+    ...(state.results.length > 0 ? [{
+      id: 'current',
+      name: 'Current',
+      color: '#a855f7', // purple-500
+      results: state.results
+    }] : []),
+    // Saved active scenarios
+    ...state.scenarios
+      .filter(s => state.activeScenarioIds.includes(s.id))
+      .map(s => ({
+        id: s.id,
+        name: s.name,
+        color: s.color,
+        results: calculate(s.config, s.overrides).results
+      }))
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
       <div className="fixed top-4 right-4 z-50 flex items-center gap-4">
@@ -137,28 +258,46 @@ export default function Home() {
 
         {/* Main Content */}
         {/* Chart Section */}
-        {state.results.length > 0 && (
+        {chartScenarios.length > 0 && (
           <div className="mb-8 bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 shadow-xl card-hover">
             <h2 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
               {t('chartTitle')}
             </h2>
-            <SavingsChart results={state.results} />
+            <SavingsChart scenarios={chartScenarios} />
           </div>
         )}
 
         <div className="grid lg:grid-cols-2 gap-8 opacity-0 animate-[slideUp_0.5s_ease-out_forwards]">
-          {/* Form Section */}
-          <div className="glass rounded-2xl p-6 shadow-xl card-hover glow-emerald">
-            <h2 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-              {t('configTitle')}
-            </h2>
-            <SimulationForm onSubmit={handleSimulate} />
+          {/* Left Column: Form & Scenario Management */}
+          <div className="space-y-8">
+            {/* Form Section */}
+            <div className="glass rounded-2xl p-6 shadow-xl card-hover glow-emerald">
+              <h2 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                {t('configTitle')}
+              </h2>
+              <SimulationForm
+                onSubmit={handleSimulate}
+                onGoalChange={handleGoalChange}
+                suggestedIncome={goalSuggest}
+              />
+            </div>
+            
+            {/* Scenario Manager Section */}
+            <div className="glass rounded-2xl p-6 shadow-xl card-hover glow-cyan">
+              <ScenarioManager
+                scenarios={state.scenarios}
+                onSave={handleSaveScenario}
+                onDelete={handleDeleteScenario}
+                onToggle={handleToggleScenario}
+                activeIds={state.activeScenarioIds}
+              />
+            </div>
           </div>
 
-          {/* Results Section */}
-          <div className="glass rounded-2xl p-6 shadow-xl card-hover glow-purple">
+          {/* Right Column: Results Table */}
+          <div className="glass rounded-2xl p-6 shadow-xl card-hover glow-purple h-fit">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-semibold text-white flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-purple-400"></span>

@@ -5,6 +5,8 @@ Auto-generated from all feature plans. Last updated: 2026-01-04
 ## Active Technologies
 - TypeScript 5, React 19, Next.js 15+ (App Router) + Tailwind CSS v4, `next-intl`, `savings-core` (002-i18n-support)
 - localStorage (for language preference) (002-i18n-support)
+- TypeScript 5, React 19, Next.js 15+ + Tailwind CSS v4, `next-intl`, `savings-core` (local package), `recharts` (likely used for `SavingsChart`) (003-advanced-financial-planning)
+- localStorage for scenario persistence. (003-advanced-financial-planning)
 
 - TypeScript 5, React 19 + Next.js 16 (App Router), Tailwind CSS v4 (001-add-github-link-ui)
 
@@ -24,6 +26,7 @@ npm test && npm run lint
 TypeScript 5, React 19: Follow standard conventions
 
 ## Recent Changes
+- 003-advanced-financial-planning: Added TypeScript 5, React 19, Next.js 15+ + Tailwind CSS v4, `next-intl`, `savings-core` (local package), `recharts` (likely used for `SavingsChart`)
 - 002-i18n-support: Added TypeScript 5, React 19, Next.js 15+ (App Router) + Tailwind CSS v4, `next-intl`, `savings-core`
 
 - 001-add-github-link-ui: Added TypeScript 5, React 19 + Next.js 16 (App Router), Tailwind CSS v4

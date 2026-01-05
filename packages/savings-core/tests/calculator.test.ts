@@ -1,13 +1,14 @@
 import { describe, it, expect } from 'vitest';
-import { calculate } from '../src/calculator.js';
+import { calculate, goalSeek } from '../src/calculator.js';
 import type { SimulationConfig, YearlyOverride } from '../src/types.js';
 
 describe('calculate', () => {
   const baseConfig: SimulationConfig = {
     initialIncome: 100000,
-    incomeGrowthRate: 0.05, // 5%
+    salaryGrowthRate: 0.05, // 5%
     initialExpenses: 50000,
     expenseGrowthRate: 0.03, // 3%
+    inflationRate: 0, // No inflation for base tests
     investmentReturnRate: 0.08, // 8%
     durationYears: 3,
   };
@@ -31,7 +32,7 @@ describe('calculate', () => {
     expect(year1.isOverridden).toBe(false);
   });
 
-  it('should apply income and expense growth in year 2', () => {
+  it('should apply salary growth in year 2', () => {
     const result = calculate(baseConfig);
     const year2 = result.results[1];
 
@@ -45,6 +46,22 @@ describe('calculate', () => {
     expect(year2.netSavings).toBe(57500);
     // Total: 50000 + 57500 = 107500
     expect(year2.totalSavings).toBe(107500);
+  });
+
+  it('should apply inflation to expenses in year 2', () => {
+    const configWithInflation: SimulationConfig = {
+      ...baseConfig,
+      inflationRate: 0.02, // 2% inflation
+    };
+    const result = calculate(configWithInflation);
+    const year2 = result.results[1];
+
+    // Expenses: 50000 * (1 + 0.03 + 0.02) = 52500
+    // OR is it compounding? Research says: expenseGrowthRate (creep) + inflationRate.
+    // Let's assume (1 + creep) * (1 + inflation) or additive?
+    // Plan said: "expenseGrowthRate (lifestyle creep) + inflationRate (market inflation)"
+    // That implies additive: (1 + 0.03 + 0.02) = 1.05
+    expect(year2.expenses).toBe(52500);
   });
 
   it('should handle overrides for specific years', () => {
@@ -76,7 +93,7 @@ describe('calculate', () => {
   it('should handle negative growth rates', () => {
     const config: SimulationConfig = {
       ...baseConfig,
-      incomeGrowthRate: -0.05,
+      salaryGrowthRate: -0.05,
       expenseGrowthRate: -0.02,
     };
     const result = calculate(config);
@@ -86,5 +103,36 @@ describe('calculate', () => {
     expect(year2.income).toBe(95000);
     // Expenses: 50000 * 0.98 = 49000
     expect(year2.expenses).toBe(49000);
+  });
+});
+
+describe('goalSeek', () => {
+  const baseConfig: SimulationConfig = {
+    initialIncome: 0, // We will solve for this
+    salaryGrowthRate: 0.05,
+    initialExpenses: 50000,
+    expenseGrowthRate: 0.03,
+    inflationRate: 0.02,
+    investmentReturnRate: 0.08,
+    durationYears: 10,
+  };
+
+  it('should find required income to reach ¥1M in 10 years', () => {
+    const target = 1000000;
+    const targetYear = 10;
+    const requiredIncome = goalSeek(baseConfig, [], target, targetYear);
+    
+    // Verify by running simulation with that income
+    const result = calculate({ ...baseConfig, initialIncome: requiredIncome, durationYears: targetYear });
+    
+    // Tolerance is $0.01 per precision goal, but total savings might vary slightly more due to multi-year compound
+    // Actually the algorithm stops within 0.01 of target.
+    expect(result.totalSavings).toBeGreaterThanOrEqual(target - 1);
+    expect(result.totalSavings).toBeLessThanOrEqual(target + 1);
+  });
+
+  it('should return 0 if target year is invalid', () => {
+    expect(goalSeek(baseConfig, [], 1000000, 0)).toBe(0);
+    expect(goalSeek(baseConfig, [], 1000000, 11)).toBe(0);
   });
 });
