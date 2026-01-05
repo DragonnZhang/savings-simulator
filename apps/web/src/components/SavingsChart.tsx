@@ -12,30 +12,35 @@ import {
 } from 'recharts';
 import { useTranslations, useLocale } from 'next-intl';
 
-interface YearlyResult {
-  year: number;
-  income: number;
-  expenses: number;
-  investmentReturn: number;
-  netSavings: number;
-  totalSavings: number;
-  isOverridden: boolean;
+import type { YearlyResult } from 'savings-core';
+
+interface ChartScenario {
+  id: string;
+  name: string;
+  color: string;
+  results: YearlyResult[];
 }
 
 interface SavingsChartProps {
-  results: YearlyResult[];
+  scenarios: ChartScenario[];
 }
 
 function formatCurrency(value: number, locale: string): string {
   return locale === 'zh' ? `¥${value.toLocaleString()}` : `$${value.toLocaleString()}`;
 }
 
-export default function SavingsChart({ results }: SavingsChartProps) {
+interface ChartDataPoint {
+  name: string;
+  [key: string]: string | number;
+}
+
+export default function SavingsChart({ scenarios }: SavingsChartProps) {
   const t = useTranslations('Table');
   const tIndex = useTranslations('Index');
   const locale = useLocale();
 
-  if (results.length === 0) {
+  // If no scenarios or no results in first scenario
+  if (scenarios.length === 0 || scenarios[0].results.length === 0) {
     return (
       <div className="h-80 flex items-center justify-center text-gray-400">
         {tIndex('emptyStateChart') || 'Run simulation to see chart'}
@@ -43,14 +48,28 @@ export default function SavingsChart({ results }: SavingsChartProps) {
     );
   }
 
-  const chartData = results.map((r) => ({
-    name: t('yearLabel', { year: r.year }),
-    totalSavings: r.totalSavings,
-    netSavings: r.netSavings,
-    investmentReturn: r.investmentReturn,
-  }));
+  // Get all unique years across all scenarios
+  const maxYears = Math.max(...scenarios.map(s => s.results.length));
+  
+  const chartData = Array.from({ length: maxYears }, (_, i) => {
+    const dataPoint: ChartDataPoint = {
+      name: t('yearLabel', { year: i + 1 }),
+    };
+    
+    scenarios.forEach(s => {
+      const yearResult = s.results[i];
+      if (yearResult) {
+        dataPoint[`totalSavings_${s.id}`] = yearResult.totalSavings;
+        dataPoint[`investmentReturn_${s.id}`] = yearResult.investmentReturn;
+      }
+    });
+    
+    return dataPoint;
+  });
 
   const currencyFormatter = (value: number) => formatCurrency(value, locale);
+
+  const isMultiScenario = scenarios.length > 1;
 
   return (
     <div className="h-80">
@@ -60,18 +79,12 @@ export default function SavingsChart({ results }: SavingsChartProps) {
           margin={{ top: 10, right: 30, left: 80, bottom: 0 }}
         >
           <defs>
-            <linearGradient id="colorTotal" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#a855f7" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#a855f7" stopOpacity={0.1} />
-            </linearGradient>
-            <linearGradient id="colorNet" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#22d3ee" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#22d3ee" stopOpacity={0.1} />
-            </linearGradient>
-            <linearGradient id="colorReturn" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#fbbf24" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#fbbf24" stopOpacity={0.1} />
-            </linearGradient>
+            {scenarios.map(s => (
+              <linearGradient key={`grad_${s.id}`} id={`color_${s.id}`} x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor={s.color} stopOpacity={0.8} />
+                <stop offset="95%" stopColor={s.color} stopOpacity={0.1} />
+              </linearGradient>
+            ))}
           </defs>
           <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
           <XAxis
@@ -94,24 +107,31 @@ export default function SavingsChart({ results }: SavingsChartProps) {
             formatter={(value: number | undefined) => value !== undefined ? currencyFormatter(value) : ''}
           />
           <Legend
-            wrapperStyle={{ color: '#9ca3af' }}
+            wrapperStyle={{ color: '#9ca3af', paddingTop: '20px' }}
           />
-          <Area
-            type="monotone"
-            dataKey="totalSavings"
-            name={t('totalSavings')}
-            stroke="#a855f7"
-            fillOpacity={1}
-            fill="url(#colorTotal)"
-          />
-          <Area
-            type="monotone"
-            dataKey="investmentReturn"
-            name={t('investmentReturn')}
-            stroke="#fbbf24"
-            fillOpacity={1}
-            fill="url(#colorReturn)"
-          />
+          {scenarios.map(s => (
+            <Area
+              key={`area_total_${s.id}`}
+              type="monotone"
+              dataKey={`totalSavings_${s.id}`}
+              name={isMultiScenario ? s.name : t('totalSavings')}
+              stroke={s.color}
+              strokeWidth={2}
+              fillOpacity={1}
+              fill={`url(#color_${s.id})`}
+              activeDot={{ r: 6 }}
+            />
+          ))}
+          {!isMultiScenario && (
+            <Area
+              type="monotone"
+              dataKey={`investmentReturn_${scenarios[0].id}`}
+              name={t('investmentReturn')}
+              stroke="#fbbf24"
+              fillOpacity={1}
+              fill="#fbbf2433"
+            />
+          )}
         </AreaChart>
       </ResponsiveContainer>
     </div>

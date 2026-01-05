@@ -11,9 +11,11 @@
   "Form": {
     "income": "收入 Income",
     "annualIncome": "年收入 (Annual Income)",
-    "annualGrowth": "年涨幅 (Annual Growth %)",
+    "annualSalaryGrowth": "薪资年涨幅 (Salary Growth %)",
+    "annualInflation": "年通胀率 (Inflation Rate %)",
     "expenses": "支出 Expenses",
     "annualExpenses": "年支出 (Annual Expenses)",
+    "annualExpenseGrowth": "支出年涨幅 (Expense Growth %)",
     "investment": "投资 Investment",
     "annualReturn": "年化收益率 (Annual Return %)",
     "duration": "时长 Duration",
@@ -36,5 +38,25 @@
     "expenses": "年支出 (Expenses)",
     "cancel": "取消",
     "save": "保存"
+  },
+  "Scenario": {
+    "title": "方案管理",
+    "saveCurrent": "保存当前为方案",
+    "namePlaceholder": "方案名称 (如：基准方案)",
+    "colorLabel": "显示颜色",
+    "listTitle": "已保存方案",
+    "maxReached": "已达到最大方案数 (3)",
+    "noScenarios": "尚未保存任何方案",
+    "delete": "删除",
+    "compare": "对比"
+  },
+  "Goal": {
+    "title": "目标模式 (Goal Mode)",
+    "enable": "启用目标反推",
+    "targetAmount": "预期目标金额",
+    "targetYear": "目标达成年份",
+    "suggestedMonthly": "建议月入 (建议年入 / 12)",
+    "suggestedAnnual": "建议年入 (需达到此收入)",
+    "apply": "应用到参数"
   }
 }

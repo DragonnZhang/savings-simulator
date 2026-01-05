@@ -9,9 +9,10 @@ import { z } from 'zod';
  */
 export const SimulationConfigSchema = z.object({
   initialIncome: z.number().positive('Initial income must be positive'),
-  incomeGrowthRate: z.number().min(-1).max(1),
+  salaryGrowthRate: z.number().min(-1).max(1), // Replaces incomeGrowthRate
   initialExpenses: z.number().nonnegative('Initial expenses must be non-negative'),
   expenseGrowthRate: z.number().min(-1).max(1),
+  inflationRate: z.number().min(-1).max(1), // New field
   investmentReturnRate: z.number().min(-1).max(1),
   durationYears: z.number().int().positive().max(100),
 });
@@ -49,6 +50,26 @@ export interface YearlyResult {
 export interface SimulationResult {
   results: YearlyResult[];
   totalSavings: number; // Final year total
+}
+
+/**
+ * A saved state of a simulation with metadata.
+ */
+export interface Scenario {
+  id: string;
+  name: string;
+  config: SimulationConfig;
+  overrides: YearlyOverride[];
+  color: string;
+}
+
+/**
+ * Goal seeking request.
+ */
+export interface GoalSeekRequest {
+  targetAmount: number;
+  targetYear: number;
+  fixedVariable: 'monthlySavings' | 'returnRate';
 }
 
 /**

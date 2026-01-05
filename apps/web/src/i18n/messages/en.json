@@ -11,9 +11,11 @@
   "Form": {
     "income": "Income",
     "annualIncome": "Annual Income",
-    "annualGrowth": "Annual Growth (%)",
+    "annualSalaryGrowth": "Annual Salary Growth (%)",
+    "annualInflation": "Annual Inflation Rate (%)",
     "expenses": "Expenses",
     "annualExpenses": "Annual Expenses",
+    "annualExpenseGrowth": "Annual Expense Growth (%)",
     "investment": "Investment",
     "annualReturn": "Annual Return (%)",
     "duration": "Duration",
@@ -36,5 +38,25 @@
     "expenses": "Annual Expenses",
     "cancel": "Cancel",
     "save": "Save"
+  },
+  "Scenario": {
+    "title": "Scenarios",
+    "saveCurrent": "Save Current as Scenario",
+    "namePlaceholder": "Scenario Name (e.g. Baseline)",
+    "colorLabel": "Display Color",
+    "listTitle": "Saved Scenarios",
+    "maxReached": "Maximum scenarios reached (3)",
+    "noScenarios": "No scenarios saved yet",
+    "delete": "Delete",
+    "compare": "Compare"
+  },
+  "Goal": {
+    "title": "Goal Mode",
+    "enable": "Enable Goal Seek",
+    "targetAmount": "Target Savings Amount",
+    "targetYear": "Target Year",
+    "suggestedMonthly": "Suggested Monthly Income",
+    "suggestedAnnual": "Suggested Annual Income",
+    "apply": "Apply Suggestion"
   }
 }
