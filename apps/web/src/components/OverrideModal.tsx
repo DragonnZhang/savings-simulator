@@ -89,7 +89,7 @@ export default function OverrideModal({
           <button
             type="button"
             onClick={handleSave}
-            className="flex-1 py-2 px-4 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-lg hover:from-emerald-600 hover:to-teal-700 transition-all"
+            className="flex-1 py-2 px-4 bg-linear-to-r from-emerald-500 to-teal-600 text-white rounded-lg hover:from-emerald-600 hover:to-teal-700 transition-all"
           >
             {t('save')}
           </button>

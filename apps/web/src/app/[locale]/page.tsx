@@ -242,18 +242,28 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
-      <div className="fixed top-4 right-4 z-50 flex items-center gap-4">
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Animated background particles */}
+      <div className="fixed inset-0 -z-10">
+        <div className="absolute inset-0 bg-linear-to-br from-gray-900 via-purple-900/20 to-gray-900"></div>
+        <div className="absolute top-0 -left-1/4 w-1/2 h-1/2 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 -right-1/4 w-1/2 h-1/2 bg-emerald-500/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+      </div>
+      
+      <div className="fixed top-4 right-4 z-50 flex items-center gap-4 opacity-0 animate-[fadeIn_0.5s_ease-out_0.3s_forwards]">
         <LanguageSwitcher />
         <GitHubLink />
       </div>
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 relative z-10">
         {/* Header */}
-        <header className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent mb-4 gradient-text-animated">
-            {t('title')}
-          </h1>
-          <p className="text-gray-400 text-lg">
+        <header className="text-center mb-16 opacity-0 animate-[slideUp_0.6s_ease-out_0.1s_forwards]">
+          <div className="relative inline-block">
+            <h1 className="text-5xl md:text-7xl font-extrabold bg-linear-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent mb-6 gradient-text-animated leading-tight">
+              {t('title')}
+            </h1>
+            <div className="absolute -inset-1 bg-linear-to-r from-emerald-400/20 via-teal-400/20 to-cyan-400/20 blur-2xl -z-10 animate-pulse"></div>
+          </div>
+          <p className="text-gray-300 text-xl md:text-2xl font-light tracking-wide max-w-2xl mx-auto">
             {t('subtitle')}
           </p>
         </header>
@@ -261,24 +271,34 @@ export default function Home() {
         {/* Main Content */}
         {/* Chart Section */}
         {chartScenarios.length > 0 && (
-          <div className="mb-8 bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 border border-gray-700/50 shadow-xl card-hover">
-            <h2 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
-              {t('chartTitle')}
-            </h2>
+          <div className="mb-12 glass rounded-3xl p-8 border border-gray-700/50 shadow-2xl card-hover glow-cyan opacity-0 animate-[slideUp_0.5s_ease-out_0.2s_forwards]">
+            <div className="flex items-center gap-3 mb-8">
+              <div className="relative">
+                <span className="w-3 h-3 rounded-full bg-cyan-400 block animate-ping absolute"></span>
+                <span className="w-3 h-3 rounded-full bg-cyan-400 block relative"></span>
+              </div>
+              <h2 className="text-2xl font-bold bg-linear-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+                {t('chartTitle')}
+              </h2>
+            </div>
             <SavingsChart scenarios={chartScenarios} />
           </div>
         )}
 
-        <div className="grid lg:grid-cols-2 gap-8 opacity-0 animate-[slideUp_0.5s_ease-out_forwards]">
+        <div className="grid lg:grid-cols-2 gap-10">
           {/* Left Column: Form & Scenario Management */}
-          <div className="space-y-8">
+          <div className="space-y-10">
             {/* Form Section */}
-            <div className="glass rounded-2xl p-6 shadow-xl card-hover glow-emerald">
-              <h2 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-                {t('configTitle')}
-              </h2>
+            <div className="glass rounded-3xl p-8 shadow-2xl card-hover glow-emerald opacity-0 animate-[slideUp_0.5s_ease-out_0.3s_forwards]">
+              <div className="flex items-center gap-3 mb-8">
+                <div className="relative">
+                  <span className="w-3 h-3 rounded-full bg-emerald-400 block animate-ping absolute"></span>
+                  <span className="w-3 h-3 rounded-full bg-emerald-400 block relative"></span>
+                </div>
+                <h2 className="text-2xl font-bold bg-linear-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+                  {t('configTitle')}
+                </h2>
+              </div>
               <SimulationForm
                 onSubmit={handleSimulate}
                 onGoalChange={handleGoalChange}
@@ -287,7 +307,7 @@ export default function Home() {
             </div>
             
             {/* Scenario Manager Section */}
-            <div className="glass rounded-2xl p-6 shadow-xl card-hover glow-cyan">
+            <div className="glass rounded-3xl p-8 shadow-2xl card-hover glow-cyan opacity-0 animate-[slideUp_0.5s_ease-out_0.4s_forwards]">
               <ScenarioManager
                 scenarios={state.scenarios}
                 onSave={handleSaveScenario}
@@ -299,22 +319,27 @@ export default function Home() {
           </div>
 
           {/* Right Column: Results Table */}
-          <div className="glass rounded-2xl p-6 shadow-xl card-hover glow-purple h-fit">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-semibold text-white flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-purple-400"></span>
-                {t('resultsTitle')}
-              </h2>
+          <div className="glass rounded-3xl p-8 shadow-2xl card-hover glow-purple h-fit opacity-0 animate-[slideUp_0.5s_ease-out_0.5s_forwards]">
+            <div className="flex justify-between items-start mb-8">
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <span className="w-3 h-3 rounded-full bg-purple-400 block animate-ping absolute"></span>
+                  <span className="w-3 h-3 rounded-full bg-purple-400 block relative"></span>
+                </div>
+                <h2 className="text-2xl font-bold bg-linear-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                  {t('resultsTitle')}
+                </h2>
+              </div>
               {state.totalSavings > 0 && (
-                <div className="text-right">
-                  <span className="text-gray-400 text-sm">{t('finalSavings')}</span>
-                  <p className="text-2xl font-bold text-purple-400 metric-highlight">
+                <div className="text-right bg-purple-500/10 px-4 py-3 rounded-xl border border-purple-500/20">
+                  <span className="text-gray-400 text-xs font-medium uppercase tracking-wider">{t('finalSavings')}</span>
+                  <p className="text-3xl font-extrabold bg-linear-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent metric-highlight mt-1">
                     ¥{state.totalSavings.toLocaleString()}
                   </p>
                 </div>
               )}
             </div>
-            <p className="text-xs text-gray-500 mb-4">
+            <p className="text-sm text-gray-400 mb-6 px-4 py-2 bg-gray-800/50 rounded-lg border border-gray-700/50">
               {t('rowClickTip')}
             </p>
             <ResultsTable results={state.results} onRowClick={handleRowClick} />
