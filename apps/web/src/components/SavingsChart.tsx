@@ -82,44 +82,46 @@ export default function SavingsChart({ scenarios }: SavingsChartProps) {
           <defs>
             {scenarios.map(s => (
               <linearGradient key={`grad_${s.id}`} id={`color_${s.id}`} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={s.color} stopOpacity={0.9} />
-                <stop offset="50%" stopColor={s.color} stopOpacity={0.4} />
-                <stop offset="95%" stopColor={s.color} stopOpacity={0.05} />
+                <stop offset="5%" stopColor={s.color} stopOpacity={0.8} />
+                <stop offset="50%" stopColor={s.color} stopOpacity={0.2} />
+                <stop offset="95%" stopColor={s.color} stopOpacity={0} />
               </linearGradient>
             ))}
           </defs>
-          <CartesianGrid strokeDasharray="2 4" stroke="#4b5563" opacity={0.25} />
+          <CartesianGrid strokeDasharray="3 3" stroke="#27272A" vertical={false} />
           <XAxis
             dataKey="name"
-            stroke="#6b7280"
-            tick={{ fill: '#9ca3af', fontSize: 12, fontWeight: 500 }}
-            tickLine={{ stroke: '#374151' }}
+            stroke="#525252"
+            tick={{ fill: '#737373', fontSize: 11 }}
+            tickLine={false}
+            axisLine={false}
+            dy={10}
           />
           <YAxis
-            stroke="#6b7280"
-            tick={{ fill: '#9ca3af', fontSize: 12, fontWeight: 500 }}
-            tickFormatter={currencyFormatter}
-            tickLine={{ stroke: '#374151' }}
+            stroke="#525252"
+            tick={{ fill: '#737373', fontSize: 11 }}
+            tickFormatter={(value) => currencyFormatter(value)}
+            tickLine={false}
+            axisLine={false}
+            dx={-10}
           />
           <Tooltip
             contentStyle={{
-              backgroundColor: 'rgba(15, 20, 25, 0.95)',
-              border: '1px solid rgba(96, 165, 250, 0.25)',
-              borderRadius: '12px',
+              backgroundColor: '#141416',
+              border: '1px solid #27272A',
+              borderRadius: '8px',
               color: '#fff',
-              padding: '12px 16px',
-              backdropFilter: 'blur(12px)',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(96, 165, 250, 0.1)',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)',
             }}
+            itemStyle={{ color: '#fff' }}
             formatter={(value: number | undefined) => value !== undefined ? currencyFormatter(value) : ''}
-            labelStyle={{ fontWeight: 'bold', marginBottom: '8px', color: '#e5e7eb' }}
+            labelStyle={{ fontWeight: '600', marginBottom: '8px', color: '#A3A3A3' }}
+            cursor={{ stroke: '#525252', strokeWidth: 1, strokeDasharray: '4 4' }}
           />
           <Legend
             wrapperStyle={{ 
-              color: '#9ca3af', 
-              paddingTop: '25px',
-              fontSize: '14px',
-              fontWeight: 500
+              paddingTop: '20px',
+              color: '#A3A3A3'
             }}
             iconType="circle"
           />
@@ -130,26 +132,12 @@ export default function SavingsChart({ scenarios }: SavingsChartProps) {
               dataKey={`totalSavings_${s.id}`}
               name={isMultiScenario ? s.name : t('totalSavings')}
               stroke={s.color}
-              strokeWidth={3}
-              fillOpacity={1}
-              fill={`url(#color_${s.id})`}
-              activeDot={{ r: 8, strokeWidth: 2, stroke: s.color, fill: '#1f2937' }}
-              dot={{ r: 0 }}
-            />
-          ))}
-          {!isMultiScenario && (
-            <Area
-              type="monotone"
-              dataKey={`investmentReturn_${scenarios[0].id}`}
-              name={t('investmentReturn')}
-              stroke="#fbbf24"
               strokeWidth={2}
               fillOpacity={1}
-              fill="#fbbf2420"
-              activeDot={{ r: 6, strokeWidth: 2, stroke: '#fbbf24', fill: '#1f2937' }}
-              dot={{ r: 0 }}
+              fill={`url(#color_${s.id})`}
+              activeDot={{ r: 6, strokeWidth: 0, fill: '#fff' }}
             />
-          )}
+          ))}
         </AreaChart>
       </ResponsiveContainer>
     </div>

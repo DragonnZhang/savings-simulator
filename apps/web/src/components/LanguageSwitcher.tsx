@@ -22,10 +22,10 @@ export default function LanguageSwitcher() {
         <button
           key={loc}
           onClick={() => handleLanguageChange(loc)}
-          className={`px-3 py-1 rounded-md text-sm font-medium transition-all ${
+          className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
             locale === loc
-              ? 'bg-linear-to-r from-emerald-500 to-teal-600 text-white shadow-md'
-              : 'text-gray-400 hover:text-white hover:bg-gray-700/50'
+              ? 'bg-[--nebula-gold] text-black shadow-lg shadow-[--nebula-gold-dim]'
+              : 'text-gray-400 hover:text-white hover:bg-gray-800'
           }`}
         >
           {loc === 'zh' ? '中文' : 'EN'}

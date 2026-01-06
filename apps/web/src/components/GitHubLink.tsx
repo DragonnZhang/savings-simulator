@@ -14,12 +14,12 @@ export default function GitHubLink({ className = '' }: GitHubLinkProps) {
         flex items-center justify-center
         w-10 h-10 md:w-12 md:h-12
         rounded-full
-        bg-white/10 backdrop-blur-md
-        border border-white/20
-        shadow-lg
-        text-white/80 hover:text-white
+        bg-white/5 backdrop-blur-md
+        border border-white/10
+        shadow-lg shadow-black/50
+        text-[--nebula-text-muted]
         transition-all duration-300
-        hover:scale-110 hover:bg-white/20 hover:shadow-emerald-500/20
+        hover:scale-110 hover:bg-[#1A1A1D] hover:text-[--nebula-gold] hover:border-[--nebula-gold] hover:shadow-[--nebula-gold-dim]
         group
         ${className}
       `}

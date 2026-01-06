@@ -227,7 +227,7 @@ export default function Home() {
     ...(state.results.length > 0 ? [{
       id: 'current',
       name: 'Current',
-      color: '#a855f7', // purple-500
+      color: '#F5C065', // Nebula Gold for current
       results: state.results
     }] : []),
     // Saved active scenarios (only shown after mounting to avoid hydration mismatch)
@@ -241,129 +241,120 @@ export default function Home() {
       })) : [])
   ];
 
+  const formattedNull = () => <span className="text-gray-600">---</span>;
+
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      {/* Animated background - Premium gradient orbs */}
-      <div className="fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-[#0F1419]"></div>
-        {/* Emerald orb - Top left */}
-        <div className="absolute -top-[20%] -left-[10%] w-[45%] h-[45%] bg-gradient-to-br from-emerald-500/25 via-emerald-400/15 to-transparent rounded-full blur-[100px] animate-pulse" style={{animationDuration: '8s'}}></div>
-        {/* Purple orb - Bottom right */}
-        <div className="absolute -bottom-[20%] -right-[10%] w-[50%] h-[50%] bg-gradient-to-tl from-purple-500/25 via-purple-400/15 to-transparent rounded-full blur-[100px] animate-pulse" style={{animationDelay: '2s', animationDuration: '9s'}}></div>
-        {/* Cyan orb - Center right */}
-        <div className="absolute top-[35%] right-[25%] w-[40%] h-[40%] bg-gradient-to-br from-cyan-400/20 via-blue-400/12 to-transparent rounded-full blur-[100px] animate-pulse" style={{animationDelay: '4s', animationDuration: '10s'}}></div>
-        {/* Subtle grid overlay */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_75%_75%_at_50%_40%,black,transparent)]"></div>
-      </div>
-      
-      <div className="fixed top-4 right-4 z-50 flex items-center gap-4 opacity-0 animate-[fadeIn_0.5s_ease-out_0.3s_forwards]">
-        <LanguageSwitcher />
-        <GitHubLink />
-      </div>
-      <div className="container mx-auto px-4 py-12 relative z-10">
-        {/* Hero Header */}
-        <header className="text-center mb-16 lg:mb-24 opacity-0 animate-[slideUp_0.6s_ease-out_0.1s_forwards]">
-          <div className="relative inline-block">
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent mb-6 leading-[1.1] tracking-tight">
-              {t('title')}
-            </h1>
-            {/* Ambient glow */}
-            <div className="absolute inset-0 bg-gradient-to-r from-emerald-400/25 via-teal-400/15 to-cyan-400/25 blur-[80px] -z-10 scale-110 animate-pulse" style={{animationDuration: '4s'}}></div>
+    <div className="min-h-screen p-4 lg:p-8 font-sans selection:bg-[--nebula-gold] selection:text-black">
+       {/* Top Navigation Bar */}
+       <header className="flex flex-col md:flex-row justify-between items-center mb-8 gap-6 animate-[fadeIn_0.5s_ease-out]">
+          <div className="flex items-center gap-4">
+             <div className="w-12 h-12 rounded-full bg-linear-to-br from-[--nebula-gold] to-orange-500 flex items-center justify-center shadow-lg shadow-[--nebula-gold-dim]">
+               <span className="text-black font-bold text-xl">S</span>
+             </div>
+             <div>
+                <h1 className="text-2xl font-bold tracking-tight text-white">{t('title')}</h1>
+                <p className="text-xs text-gray-500 font-medium uppercase tracking-widest">Financial Simulator</p>
+             </div>
           </div>
-          <p className="text-gray-300 text-base md:text-lg lg:text-xl font-medium tracking-wide max-w-2xl mx-auto mt-6 leading-relaxed px-4">
-            {t('subtitle')}
-          </p>
-          {/* Decorative separator */}
-          <div className="mt-10 flex items-center justify-center gap-3">
-            <div className="h-px w-20 bg-gradient-to-r from-transparent via-emerald-400/40 to-transparent"></div>
-            <div className="relative">
-              <div className="w-2 h-2 rounded-full bg-emerald-400/60 animate-ping absolute"></div>
-              <div className="w-2 h-2 rounded-full bg-emerald-400"></div>
-            </div>
-            <div className="h-px w-20 bg-gradient-to-r from-transparent via-emerald-400/40 to-transparent"></div>
-          </div>
-        </header>
+          
+          <nav className="hidden md:flex bg-[#141416] p-1.5 rounded-full border border-[#2A2A2E]">
+            <button className="px-6 py-2 rounded-full bg-[--nebula-bg] text-white shadow-md font-medium text-sm border border-[#27272A]">Dashboard</button>
+            <button className="px-6 py-2 rounded-full text-gray-500 hover:text-white font-medium text-sm transition-colors">Reports</button>
+             <button className="px-6 py-2 rounded-full text-gray-500 hover:text-white font-medium text-sm transition-colors">Settings</button>
+          </nav>
 
-        {/* Main Content */}
-        {/* Savings Growth Chart */}
-        {chartScenarios.length > 0 && (
-          <div className="mb-8 lg:mb-12 glass rounded-2xl lg:rounded-3xl p-6 lg:p-10 border border-cyan-500/15 shadow-2xl card-hover glow-cyan opacity-0 animate-[slideUp_0.5s_ease-out_0.2s_forwards]">
-            <div className="flex items-center gap-3 mb-8 lg:mb-10">
-              <div className="relative flex items-center justify-center">
-                <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 block animate-ping absolute opacity-75"></span>
-                <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 block relative shadow-lg shadow-cyan-400/50"></span>
-              </div>
-              <h2 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text text-transparent tracking-tight">
-                {t('chartTitle')}
-              </h2>
-            </div>
-            <SavingsChart scenarios={chartScenarios} />
+          <div className="flex items-center gap-4">
+            <LanguageSwitcher />
+            <GitHubLink />
           </div>
-        )}
+       </header>
 
-        <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
-          {/* Left Column: Configuration & Scenarios */}
-          <div className="space-y-6 lg:space-y-8">
-            {/* Configuration Card */}
-            <div className="glass rounded-2xl lg:rounded-3xl p-6 lg:p-10 shadow-2xl card-hover glow-emerald opacity-0 animate-[slideUp_0.5s_ease-out_0.3s_forwards] border border-emerald-500/15">
-              <div className="flex items-center gap-3 mb-8 lg:mb-10">
-                <div className="relative flex items-center justify-center">
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 block animate-ping absolute opacity-75"></span>
-                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 block relative shadow-lg shadow-emerald-400/50"></span>
+       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+          {/* Left Column: Configuration */}
+          <div className="lg:col-span-4 space-y-6 animate-[slideUp_0.5s_ease-out_0.2s_backwards]">
+             <div className="nebula-card p-6 border-t-4 border-t-[--nebula-gold]">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-lg font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[--nebula-gold]"></span>
+                    {t('configTitle')}
+                  </h2>
                 </div>
-                <h2 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-emerald-300 to-teal-300 bg-clip-text text-transparent tracking-tight">
-                  {t('configTitle')}
-                </h2>
-              </div>
-              <SimulationForm
-                onSubmit={handleSimulate}
-                onGoalChange={handleGoalChange}
-                suggestedIncome={goalSuggest}
-              />
-            </div>
-            
-            {/* Scenario Manager Card */}
-            <div className="glass rounded-2xl lg:rounded-3xl p-6 lg:p-10 shadow-2xl card-hover glow-cyan opacity-0 animate-[slideUp_0.5s_ease-out_0.4s_forwards] border border-cyan-500/15">
-              <ScenarioManager
-                scenarios={state.scenarios}
-                onSave={handleSaveScenario}
-                onDelete={handleDeleteScenario}
-                onToggle={handleToggleScenario}
-                activeIds={state.activeScenarioIds}
-              />
-            </div>
+                <SimulationForm
+                  onSubmit={handleSimulate}
+                  onGoalChange={handleGoalChange}
+                  suggestedIncome={goalSuggest}
+                />
+             </div>
+             
+             <div className="nebula-card p-6 border-t-4 border-t-purple-500">
+                 <h2 className="text-lg font-bold text-white mb-4 uppercase tracking-wider flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-purple-500"></span>
+                    Scenarios
+                 </h2>
+                 <ScenarioManager
+                    scenarios={state.scenarios}
+                    onSave={handleSaveScenario}
+                    onDelete={handleDeleteScenario}
+                    onToggle={handleToggleScenario}
+                    activeIds={state.activeScenarioIds}
+                  />
+             </div>
           </div>
 
-          {/* Right Column: Results */}
-          <div className="glass rounded-2xl lg:rounded-3xl p-6 lg:p-10 shadow-2xl card-hover glow-purple h-fit opacity-0 animate-[slideUp_0.5s_ease-out_0.5s_forwards] border border-purple-500/15">
-            <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-8 lg:mb-10">
-              <div className="flex items-center gap-3">
-                <div className="relative flex items-center justify-center">
-                  <span className="w-2.5 h-2.5 rounded-full bg-purple-400 block animate-ping absolute opacity-75"></span>
-                  <span className="w-2.5 h-2.5 rounded-full bg-purple-400 block relative shadow-lg shadow-purple-400/50"></span>
-                </div>
-                <h2 className="text-2xl lg:text-3xl font-bold bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent tracking-tight">
-                  {t('resultsTitle')}
-                </h2>
+          {/* Right Column: Analytics & Results */}
+          <div className="lg:col-span-8 space-y-6 animate-[slideUp_0.5s_ease-out_0.3s_backwards]">
+              {/* Highlight Cards Row */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="nebula-card p-8 flex flex-col justify-between relative overflow-hidden group border-l-4 border-l-[--nebula-green]">
+                      <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                         <svg className="w-24 h-24 text-[--nebula-green]" fill="currentColor" viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
+                      </div>
+                      <div>
+                          <p className="text-gray-400 font-medium mb-2 uppercase text-xs tracking-wider">{t('finalSavings')}</p>
+                          <div className="text-4xl lg:text-5xl font-bold text-white tracking-tight">
+                             {state.totalSavings > 0 ? `¥${state.totalSavings.toLocaleString()}` : formattedNull()}
+                          </div>
+                      </div>
+                      <div className="mt-4 flex items-center gap-2">
+                           {state.config && <span className="text-sm text-gray-500">After {state.config.durationYears} years</span>}
+                      </div>
+                  </div>
+
+                  <div className="nebula-card p-8 flex flex-col justify-between relative overflow-hidden border-l-4 border-l-[--nebula-gold]">
+                       <div className="absolute top-0 right-0 p-4 opacity-10">
+                         <svg className="w-24 h-24 text-[--nebula-gold]" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/></svg>
+                       </div>
+                       <p className="text-gray-400 font-medium mb-2 uppercase text-xs tracking-wider">Simulated Duration</p>
+                       <div className="text-4xl lg:text-5xl font-bold text-white tracking-tight">
+                           {state.config ? `${state.config.durationYears} Years` : '--'}
+                       </div>
+                       <div className="mt-4 text-sm text-gray-500">
+                          {isMounted && state.scenarios.length > 0 ? `${state.scenarios.length} scenarios saved` : 'Start by running a simulation'}
+                       </div>
+                  </div>
               </div>
-              {state.totalSavings > 0 && (
-                <div className="w-full sm:w-auto text-left sm:text-right bg-gradient-to-br from-purple-500/12 to-pink-500/8 px-6 py-4 rounded-xl border border-purple-400/25 backdrop-blur-sm">
-                  <span className="text-gray-400 text-xs font-semibold uppercase tracking-wider block mb-2">{t('finalSavings')}</span>
-                  <p className="text-3xl lg:text-4xl font-black bg-gradient-to-r from-purple-300 to-pink-300 bg-clip-text text-transparent metric-highlight leading-none">
-                    ¥{state.totalSavings.toLocaleString()}
-                  </p>
+
+              {/* Chart Card */}
+              {chartScenarios.length > 0 && (
+                <div className="nebula-card p-6 border border-[#27272A]">
+                   <div className="flex items-center justify-between mb-6">
+                      <h2 className="text-lg font-bold text-white uppercase tracking-wider">{t('chartTitle')}</h2>
+                   </div>
+                   <SavingsChart scenarios={chartScenarios} />
                 </div>
               )}
-            </div>
-            <p className="text-sm text-gray-400 mb-6 px-4 py-3 bg-gradient-to-r from-gray-800/50 to-gray-800/30 rounded-xl border border-gray-700/25 backdrop-blur-sm">
-              {t('rowClickTip')}
-            </p>
-            <ResultsTable results={state.results} onRowClick={handleRowClick} />
-          </div>
-        </div>
-      </div>
 
-      {/* Override Modal */}
+              {/* Results Table Card */}
+              <div className="nebula-card p-6 border border-[#27272A]">
+                  <div className="flex items-center justify-between mb-6">
+                      <h2 className="text-lg font-bold text-white uppercase tracking-wider">{t('resultsTitle')}</h2>
+                      <p className="text-xs text-gray-500">{t('rowClickTip')}</p>
+                   </div>
+                   <ResultsTable results={state.results} onRowClick={handleRowClick} />
+              </div>
+          </div>
+       </div>
+
       <OverrideModal
         key={`${modalState.isOpen}-${modalState.yearIndex}`}
         isOpen={modalState.isOpen}

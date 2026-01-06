@@ -41,55 +41,62 @@ export default function OverrideModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm modal-backdrop"
+        className="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
 
       {/* Modal Content */}
-      <div className="relative bg-gray-800 rounded-2xl p-6 shadow-2xl border border-gray-700 w-full max-w-md mx-4 modal-content">
-        <h3 className="text-xl font-semibold text-white mb-6">
+      <div className="relative bg-[#1A1A1D] rounded-2xl p-8 shadow-2xl border border-[#2A2A2E] w-full max-w-md mx-4 transform transition-all">
+        <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-[--nebula-gold] to-[--nebula-gold-dim] rounded-t-2xl"></div>
+        <h3 className="text-xl font-bold text-white mb-8 tracking-wide">
           {t('title', { year: yearIndex + 1 })}
         </h3>
 
-        <div className="space-y-4">
-          <div>
-            <label htmlFor="modal-income" className="block text-sm text-gray-300 mb-1">
+        <div className="space-y-6">
+          <div className="space-y-2">
+            <label htmlFor="modal-income" className="block text-xs font-bold text-[--nebula-text-muted] uppercase tracking-wider">
               {t('income')}
             </label>
-            <input
-              type="number"
-              id="modal-income"
-              value={income}
-              onChange={(e) => setIncome(e.target.value)}
-              className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-            />
+            <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[--nebula-text-muted] font-bold">¥</span>
+                <input
+                  type="number"
+                  id="modal-income"
+                  value={income}
+                  onChange={(e) => setIncome(e.target.value)}
+                  className="nebula-input w-full px-4 py-3 pl-8 text-sm font-medium"
+                />
+            </div>
           </div>
-          <div>
-            <label htmlFor="modal-expenses" className="block text-sm text-gray-300 mb-1">
+          <div className="space-y-2">
+            <label htmlFor="modal-expenses" className="block text-xs font-bold text-[--nebula-text-muted] uppercase tracking-wider">
               {t('expenses')}
             </label>
-            <input
-              type="number"
-              id="modal-expenses"
-              value={expenses}
-              onChange={(e) => setExpenses(e.target.value)}
-              className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-            />
+            <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[--nebula-text-muted] font-bold">¥</span>
+                <input
+                  type="number"
+                  id="modal-expenses"
+                  value={expenses}
+                  onChange={(e) => setExpenses(e.target.value)}
+                  className="nebula-input w-full px-4 py-3 pl-8 text-sm font-medium"
+                />
+            </div>
           </div>
         </div>
 
-        <div className="flex gap-4 mt-6">
+        <div className="flex gap-4 mt-8">
           <button
             type="button"
             onClick={onClose}
-            className="flex-1 py-2 px-4 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 transition-colors"
+            className="flex-1 py-3 px-4 bg-[#27272A] text-[--nebula-text-muted] text-sm font-bold rounded-xl hover:bg-[#3F3F46] hover:text-white transition-all duration-200"
           >
             {t('cancel')}
           </button>
           <button
             type="button"
             onClick={handleSave}
-            className="flex-1 py-2 px-4 bg-linear-to-r from-emerald-500 to-teal-600 text-white rounded-lg hover:from-emerald-600 hover:to-teal-700 transition-all"
+            className="flex-1 py-3 px-4 bg-[--nebula-gold] text-black text-sm font-bold rounded-xl hover:bg-[#D4A017] hover:shadow-lg hover:shadow-[--nebula-gold-dim] transition-all duration-200"
           >
             {t('save')}
           </button>

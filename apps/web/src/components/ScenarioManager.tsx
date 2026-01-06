@@ -44,39 +44,39 @@ export default function ScenarioManager({
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4">
-        <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+        <h3 className="text-lg font-bold text-white flex items-center gap-2">
           {t('title')}
         </h3>
         
         {/* Save Current Section */}
-        <div className="bg-gray-800/30 p-4 rounded-xl border border-gray-700/50 space-y-4">
-          <div className="flex flex-col sm:flex-row gap-2">
+        <div className="bg-[#141416] p-5 rounded-2xl border border-[#2A2A2E] space-y-5">
+          <div className="flex flex-col sm:flex-row gap-3">
             <input
               type="text"
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
               placeholder={t('namePlaceholder')}
-              className="flex-1 px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              className="flex-1 nebula-input px-4 py-3 text-sm font-medium"
               disabled={scenarios.length >= 3}
             />
             <button
               onClick={handleSave}
               disabled={!newName.trim() || scenarios.length >= 3}
-              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 disabled:bg-gray-700 disabled:text-gray-500 text-white font-medium rounded-lg transition-colors whitespace-nowrap"
+              className="px-5 py-3 bg-[--nebula-gold] hover:bg-[#D4A017] disabled:bg-[#27272A] disabled:text-[#71717A] text-black text-sm font-bold rounded-xl transition-all shadow-lg hover:shadow-[--nebula-gold-dim] whitespace-nowrap"
             >
               {t('saveCurrent')}
             </button>
           </div>
           
           <div className="flex items-center gap-3">
-            <span className="text-sm text-gray-400">{t('colorLabel')}:</span>
+            <span className="text-xs font-bold text-[--nebula-text-muted] uppercase tracking-wider">{t('colorLabel')}:</span>
             <div className="flex gap-2">
               {PRESET_COLORS.map((color) => (
                 <button
                   key={color}
                   onClick={() => setSelectedColor(color)}
-                  className={`w-6 h-6 rounded-full transition-transform hover:scale-110 ${
-                    selectedColor === color ? 'ring-2 ring-white ring-offset-2 ring-offset-gray-900 scale-110' : ''
+                  className={`w-6 h-6 rounded-full transition-transform hover:scale-110 border-2 ${
+                    selectedColor === color ? 'border-white scale-110 shadow-lg shadow-white/20' : 'border-transparent'
                   }`}
                   style={{ backgroundColor: color }}
                 />
@@ -85,35 +85,37 @@ export default function ScenarioManager({
           </div>
           
           {scenarios.length >= 3 && (
-            <p className="text-xs text-amber-400">{t('maxReached')}</p>
+            <p className="text-xs text-amber-500 font-medium bg-amber-500/10 px-3 py-2 rounded-lg border border-amber-500/20">{t('maxReached')}</p>
           )}
         </div>
       </div>
 
       {/* List Section */}
-      <div className="space-y-3">
-        <h4 className="text-sm font-medium text-gray-400 uppercase tracking-wider">
+      <div className="space-y-4">
+        <h4 className="text-xs font-bold text-[--nebula-text-muted] uppercase tracking-wider">
           {t('listTitle')}
         </h4>
         
         {scenarios.length === 0 ? (
-          <p className="text-sm text-gray-500 italic">{t('noScenarios')}</p>
+          <div className="p-4 rounded-xl border border-dashed border-[#2A2A2E] bg-[#1A1A1D]/50 text-center">
+            <p className="text-sm text-[--nebula-text-muted] italic">{t('noScenarios')}</p>
+          </div>
         ) : (
-          <div className="space-y-2">
+          <div className="space-y-3">
             {scenarios.map((scenario) => (
               <div
                 key={scenario.id}
-                className="flex items-center justify-between p-3 bg-gray-800/50 rounded-xl border border-gray-700/50 group hover:border-gray-600 transition-colors"
+                className="flex items-center justify-between p-4 bg-[#1A1A1D] rounded-xl border border-[#2A2A2E] group hover:border-[--nebula-text-muted] transition-all duration-200"
               >
                 <div className="flex items-center gap-3">
                   <input
                     type="checkbox"
                     checked={activeIds.includes(scenario.id)}
                     onChange={() => onToggle(scenario.id)}
-                    className="w-4 h-4 rounded text-emerald-500 focus:ring-emerald-500 bg-gray-900 border-gray-700"
+                    className="w-4 h-4 rounded appearance-none border border-[#71717A] bg-[#27272A] checked:bg-[--nebula-gold] checked:border-[--nebula-gold] focus:ring-1 focus:ring-[--nebula-gold] transition-all cursor-pointer relative after:content-[''] after:hidden checked:after:block after:absolute after:left-[5px] after:top-[1px] after:w-[5px] after:h-[10px] after:border-r-2 after:border-b-2 after:border-black after:rotate-45"
                   />
                   <div
-                    className="w-3 h-3 rounded-full"
+                    className="w-3 h-3 rounded-full shadow-[0_0_8px] shadow-current"
                     style={{ backgroundColor: scenario.color }}
                   />
                   <span className="text-sm font-medium text-white">{scenario.name}</span>
@@ -121,7 +123,7 @@ export default function ScenarioManager({
                 
                 <button
                   onClick={() => onDelete(scenario.id)}
-                  className="p-1.5 text-gray-500 hover:text-rose-400 hover:bg-rose-400/10 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+                  className="p-2 text-[--nebula-text-muted] hover:text-white hover:bg-rose-500/20 hover:text-rose-400 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
