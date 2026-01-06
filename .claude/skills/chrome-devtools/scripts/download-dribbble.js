@@ -190,52 +190,54 @@ async function downloadDribbble() {
     // Extract image URLs from the page
     const images = await page.evaluate(() => {
       const results = [];
+      const seenUrls = new Set();
       
-      // Try multiple selector strategies
-      let shots = document.querySelectorAll('[data-test="shot"]');
+      // Strategy: Get all shot links directly - they follow the pattern /shots/XXXXX-title
+      const shotLinks = document.querySelectorAll('a[href*="/shots/"]');
+      console.log(`Found ${shotLinks.length} potential shot links`);
       
-      // If data-test not found, try other selectors
-      if (shots.length === 0) {
-        shots = document.querySelectorAll('div[class*="shot"]');
-      }
-      if (shots.length === 0) {
-        shots = document.querySelectorAll('a[href*="/shots/"]');
-      }
-      
-      console.log(`Found ${shots.length} shot elements`);
-
-      shots.forEach((shot) => {
+      shotLinks.forEach((link, index) => {
         try {
-          // Get shot title
-          let title = 'untitled';
-          const titleEl = shot.querySelector('[data-test="shot-title"] a') || 
-                         shot.querySelector('h3') ||
-                         shot.querySelector('h2') ||
-                         shot.querySelector('a');
-          if (titleEl?.textContent) {
-            title = titleEl.textContent.trim();
-          }
-
-          // Get shot page URL - this is what we need to visit
-          const shotLink = shot.closest('a') || shot.querySelector('a');
-          let shotUrl = shotLink?.href || '';
+          const href = link.href;
           
-          // Make sure it's an absolute URL
-          if (shotUrl && !shotUrl.startsWith('http')) {
-            shotUrl = 'https://dribbble.com' + shotUrl;
+          // Filter to only actual shot links (format: /shots/NUMBER-TITLE)
+          // Avoid navigation links like /shots/popular, /shots/recent, etc.
+          if (!href.includes('/shots/') || !href.match(/\/shots\/\d+/)) {
+            return;
           }
-
-          if (shotUrl && shotUrl.includes('/shots/')) {
-            results.push({
-              title: title.replace(/[^a-z0-9-]/gi, '-').toLowerCase().substring(0, 50),
-              shotUrl: shotUrl
-            });
+          
+          // Skip if we've already seen this URL
+          if (seenUrls.has(href)) {
+            return;
           }
+          seenUrls.add(href);
+          
+          // Get shot title from the link or its parent
+          let title = 'untitled';
+          
+          // Try to get title from link text or nearby elements
+          let titleText = link.textContent?.trim();
+          if (!titleText) {
+            // Try parent container
+            const parent = link.closest('[data-test="shot"], li, article, div[class*="shot"]');
+            const titleEl = parent?.querySelector('h3, h2, [data-test="shot-title"]');
+            titleText = titleEl?.textContent?.trim();
+          }
+          
+          if (titleText) {
+            title = titleText;
+          }
+          
+          results.push({
+            title: title.replace(/[^a-z0-9-]/gi, '-').toLowerCase().substring(0, 50),
+            shotUrl: href
+          });
         } catch (e) {
-          console.error('Error extracting shot data:', e.message);
+          console.error(`Error processing shot at index ${index}:`, e.message);
         }
       });
 
+      console.log(`Extracted ${results.length} unique shot URLs`);
       return results;
     });
 
@@ -276,6 +278,12 @@ async function downloadDribbble() {
         
         if (!imageUrl) {
           throw new Error('Could not extract image URL from shot page');
+        }
+
+        // Debug: show the extracted image URL
+        if (process.env.DEBUG) {
+          console.log(`\n  Shot URL: ${shot.shotUrl}`);
+          console.log(`  Image URL: ${imageUrl}`);
         }
 
         // Step 2: Download the image
