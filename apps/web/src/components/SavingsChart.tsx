@@ -74,11 +74,10 @@ export default function SavingsChart({ scenarios }: SavingsChartProps) {
 
   return (
     <div className="h-96 relative">
-      <div className="absolute inset-0 bg-linear-to-br from-gray-900/50 to-transparent rounded-xl"></div>
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           data={chartData}
-          margin={{ top: 20, right: 40, left: 90, bottom: 20 }}
+          margin={{ top: 20, right: 30, left: 60, bottom: 20 }}
         >
           <defs>
             {scenarios.map(s => (
@@ -89,31 +88,31 @@ export default function SavingsChart({ scenarios }: SavingsChartProps) {
               </linearGradient>
             ))}
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.3} />
+          <CartesianGrid strokeDasharray="2 4" stroke="#4b5563" opacity={0.25} />
           <XAxis
             dataKey="name"
-            stroke="#9ca3af"
-            tick={{ fill: '#9ca3af', fontSize: 13, fontWeight: 500 }}
-            tickLine={{ stroke: '#4b5563' }}
+            stroke="#6b7280"
+            tick={{ fill: '#9ca3af', fontSize: 12, fontWeight: 500 }}
+            tickLine={{ stroke: '#374151' }}
           />
           <YAxis
-            stroke="#9ca3af"
-            tick={{ fill: '#9ca3af', fontSize: 13, fontWeight: 500 }}
+            stroke="#6b7280"
+            tick={{ fill: '#9ca3af', fontSize: 12, fontWeight: 500 }}
             tickFormatter={currencyFormatter}
-            tickLine={{ stroke: '#4b5563' }}
+            tickLine={{ stroke: '#374151' }}
           />
           <Tooltip
             contentStyle={{
-              backgroundColor: 'rgba(17, 24, 39, 0.95)',
-              border: '2px solid rgba(75, 85, 99, 0.5)',
+              backgroundColor: 'rgba(15, 20, 25, 0.95)',
+              border: '1px solid rgba(96, 165, 250, 0.25)',
               borderRadius: '12px',
               color: '#fff',
               padding: '12px 16px',
-              backdropFilter: 'blur(8px)',
-              boxShadow: '0 10px 40px rgba(0, 0, 0, 0.5)',
+              backdropFilter: 'blur(12px)',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(96, 165, 250, 0.1)',
             }}
             formatter={(value: number | undefined) => value !== undefined ? currencyFormatter(value) : ''}
-            labelStyle={{ fontWeight: 'bold', marginBottom: '8px', color: '#d1d5db' }}
+            labelStyle={{ fontWeight: 'bold', marginBottom: '8px', color: '#e5e7eb' }}
           />
           <Legend
             wrapperStyle={{ 

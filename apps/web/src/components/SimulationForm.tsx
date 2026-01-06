@@ -86,188 +86,163 @@ export default function SimulationForm({ onSubmit, onGoalChange, suggestedIncome
   };
 
   return (
-    <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
         {/* Income Section */}
-        <div className="space-y-5 group">
-          <div className="flex items-center gap-2">
-            <div className="w-1 h-6 bg-linear-to-b from-emerald-400 to-emerald-600 rounded-full"></div>
-            <h3 className="text-lg font-bold text-emerald-400 tracking-wide">{t('income')}</h3>
+        <div className="space-y-4">
+          <div className="flex items-center gap-2.5 mb-2">
+            <div className="w-0.5 h-5 bg-gradient-to-b from-emerald-400 to-emerald-500 rounded-full"></div>
+            <h3 className="text-sm font-bold text-emerald-400 uppercase tracking-wider">{t('income')}</h3>
           </div>
           <div className="space-y-2">
-            <label htmlFor="initialIncome" className="block text-sm font-medium text-gray-200 tracking-wide">
+            <label htmlFor="initialIncome" className="block text-xs font-semibold text-gray-400 uppercase tracking-wider">
               {t('annualIncome')}
             </label>
-            <div className="relative group">
-              <input
-                type="number"
-                id="initialIncome"
-                name="initialIncome"
-                value={formData.initialIncome}
-                onChange={handleChange}
-                className="w-full px-5 py-3 bg-linear-to-br from-gray-800 to-gray-900 border-2 border-gray-700 rounded-xl text-white font-medium focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 hover:border-emerald-600/50 hover:shadow-lg hover:shadow-emerald-500/10"
-                min="0"
-              />
-              <div className="absolute inset-0 rounded-xl bg-linear-to-r from-emerald-500/0 to-emerald-500/0 group-focus-within:from-emerald-500/5 group-focus-within:to-teal-500/5 pointer-events-none transition-all duration-300"></div>
-            </div>
+            <input
+              type="number"
+              id="initialIncome"
+              name="initialIncome"
+              value={formData.initialIncome}
+              onChange={handleChange}
+              className="w-full px-4 py-3 bg-gray-900/50 border border-emerald-500/20 rounded-lg text-white font-medium placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500/50 focus:bg-gray-900/80 transition-all duration-200 hover:border-emerald-500/30"
+              min="0"
+            />
           </div>
           <div className="space-y-2">
-            <label htmlFor="salaryGrowthRate" className="block text-sm font-medium text-gray-200 tracking-wide">
+            <label htmlFor="salaryGrowthRate" className="block text-xs font-semibold text-gray-400 uppercase tracking-wider">
               {t('annualSalaryGrowth')}
             </label>
-            <div className="relative group">
-              <input
-                type="number"
-                id="salaryGrowthRate"
-                name="salaryGrowthRate"
-                value={formData.salaryGrowthRate}
-                onChange={handleChange}
-                step="0.1"
-                className="w-full px-5 py-3 bg-linear-to-br from-gray-800 to-gray-900 border-2 border-gray-700 rounded-xl text-white font-medium focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500 transition-all duration-300 hover:border-emerald-600/50 hover:shadow-lg hover:shadow-emerald-500/10"
-              />
-              <div className="absolute inset-0 rounded-xl bg-linear-to-r from-emerald-500/0 to-emerald-500/0 group-focus-within:from-emerald-500/5 group-focus-within:to-teal-500/5 pointer-events-none transition-all duration-300"></div>
-            </div>
+            <input
+              type="number"
+              id="salaryGrowthRate"
+              name="salaryGrowthRate"
+              value={formData.salaryGrowthRate}
+              onChange={handleChange}
+              step="0.1"
+              className="w-full px-4 py-3 bg-gray-900/50 border border-emerald-500/20 rounded-lg text-white font-medium placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500/50 focus:bg-gray-900/80 transition-all duration-200 hover:border-emerald-500/30"
+            />
           </div>
         </div>
 
         {/* Expenses Section */}
-        <div className="space-y-5 group">
-          <div className="flex items-center gap-2">
-            <div className="w-1 h-6 bg-linear-to-b from-rose-400 to-rose-600 rounded-full"></div>
-            <h3 className="text-lg font-bold text-rose-400 tracking-wide">{t('expenses')}</h3>
+        <div className="space-y-4">
+          <div className="flex items-center gap-2.5 mb-2">
+            <div className="w-0.5 h-5 bg-gradient-to-b from-rose-400 to-rose-500 rounded-full"></div>
+            <h3 className="text-sm font-bold text-rose-400 uppercase tracking-wider">{t('expenses')}</h3>
           </div>
           <div className="space-y-2">
-            <label htmlFor="initialExpenses" className="block text-sm font-medium text-gray-200 tracking-wide">
+            <label htmlFor="initialExpenses" className="block text-xs font-semibold text-gray-400 uppercase tracking-wider">
               {t('annualExpenses')}
             </label>
-            <div className="relative group">
-              <input
-                type="number"
-                id="initialExpenses"
-                name="initialExpenses"
-                value={formData.initialExpenses}
-                onChange={handleChange}
-                className="w-full px-5 py-3 bg-linear-to-br from-gray-800 to-gray-900 border-2 border-gray-700 rounded-xl text-white font-medium focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500 transition-all duration-300 hover:border-rose-600/50 hover:shadow-lg hover:shadow-rose-500/10"
-                min="0"
-              />
-              <div className="absolute inset-0 rounded-xl bg-linear-to-r from-rose-500/0 to-rose-500/0 group-focus-within:from-rose-500/5 group-focus-within:to-pink-500/5 pointer-events-none transition-all duration-300"></div>
-            </div>
+            <input
+              type="number"
+              id="initialExpenses"
+              name="initialExpenses"
+              value={formData.initialExpenses}
+              onChange={handleChange}
+              className="w-full px-4 py-3 bg-gray-900/50 border border-rose-500/20 rounded-lg text-white font-medium placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-rose-500/40 focus:border-rose-500/50 focus:bg-gray-900/80 transition-all duration-200 hover:border-rose-500/30"
+              min="0"
+            />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <label htmlFor="expenseGrowthRate" className="block text-sm font-medium text-gray-200 tracking-wide">
+              <label htmlFor="expenseGrowthRate" className="block text-xs font-semibold text-gray-400 uppercase tracking-wider">
                 {t('annualExpenseGrowth')}
               </label>
-              <div className="relative group">
-                <input
-                  type="number"
-                  id="expenseGrowthRate"
-                  name="expenseGrowthRate"
-                  value={formData.expenseGrowthRate}
-                  onChange={handleChange}
-                  step="0.1"
-                  className="w-full px-4 py-3 bg-linear-to-br from-gray-800 to-gray-900 border-2 border-gray-700 rounded-xl text-white font-medium focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500 transition-all duration-300 hover:border-rose-600/50"
-                />
-                <div className="absolute inset-0 rounded-xl bg-linear-to-r from-rose-500/0 to-rose-500/0 group-focus-within:from-rose-500/5 group-focus-within:to-pink-500/5 pointer-events-none transition-all duration-300"></div>
-              </div>
+              <input
+                type="number"
+                id="expenseGrowthRate"
+                name="expenseGrowthRate"
+                value={formData.expenseGrowthRate}
+                onChange={handleChange}
+                step="0.1"
+                className="w-full px-4 py-3 bg-gray-900/50 border border-rose-500/20 rounded-lg text-white font-medium placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-rose-500/40 focus:border-rose-500/50 focus:bg-gray-900/80 transition-all duration-200 hover:border-rose-500/30"
+              />
             </div>
             <div className="space-y-2">
-              <label htmlFor="inflationRate" className="block text-sm font-medium text-gray-200 tracking-wide">
+              <label htmlFor="inflationRate" className="block text-xs font-semibold text-gray-400 uppercase tracking-wider">
                 {t('annualInflation')}
               </label>
-              <div className="relative group">
-                <input
-                  type="number"
-                  id="inflationRate"
-                  name="inflationRate"
-                  value={formData.inflationRate}
-                  onChange={handleChange}
-                  step="0.1"
-                  className="w-full px-4 py-3 bg-linear-to-br from-gray-800 to-gray-900 border-2 border-gray-700 rounded-xl text-white font-medium focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500 transition-all duration-300 hover:border-rose-600/50"
-                />
-                <div className="absolute inset-0 rounded-xl bg-linear-to-r from-rose-500/0 to-rose-500/0 group-focus-within:from-rose-500/5 group-focus-within:to-pink-500/5 pointer-events-none transition-all duration-300"></div>
-              </div>
+              <input
+                type="number"
+                id="inflationRate"
+                name="inflationRate"
+                value={formData.inflationRate}
+                onChange={handleChange}
+                step="0.1"
+                className="w-full px-4 py-3 bg-gray-900/50 border border-rose-500/20 rounded-lg text-white font-medium placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-rose-500/40 focus:border-rose-500/50 focus:bg-gray-900/80 transition-all duration-200 hover:border-rose-500/30"
+              />
             </div>
           </div>
         </div>
 
         {/* Investment Section */}
-        <div className="space-y-5 group">
-          <div className="flex items-center gap-2">
-            <div className="w-1 h-6 bg-linear-to-b from-amber-400 to-amber-600 rounded-full"></div>
-            <h3 className="text-lg font-bold text-amber-400 tracking-wide">{t('investment')}</h3>
+        <div className="space-y-4">
+          <div className="flex items-center gap-2.5 mb-2">
+            <div className="w-0.5 h-5 bg-gradient-to-b from-amber-400 to-amber-500 rounded-full"></div>
+            <h3 className="text-sm font-bold text-amber-400 uppercase tracking-wider">{t('investment')}</h3>
           </div>
           <div className="space-y-2">
-            <label htmlFor="investmentReturnRate" className="block text-sm font-medium text-gray-200 tracking-wide">
+            <label htmlFor="investmentReturnRate" className="block text-xs font-semibold text-gray-400 uppercase tracking-wider">
               {t('annualReturn')}
             </label>
-            <div className="relative group">
-              <input
-                type="number"
-                id="investmentReturnRate"
-                name="investmentReturnRate"
-                value={formData.investmentReturnRate}
-                onChange={handleChange}
-                step="0.1"
-                className="w-full px-5 py-3 bg-linear-to-br from-gray-800 to-gray-900 border-2 border-gray-700 rounded-xl text-white font-medium focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500 transition-all duration-300 hover:border-amber-600/50 hover:shadow-lg hover:shadow-amber-500/10"
-              />
-              <div className="absolute inset-0 rounded-xl bg-linear-to-r from-amber-500/0 to-amber-500/0 group-focus-within:from-amber-500/5 group-focus-within:to-yellow-500/5 pointer-events-none transition-all duration-300"></div>
-            </div>
+            <input
+              type="number"
+              id="investmentReturnRate"
+              name="investmentReturnRate"
+              value={formData.investmentReturnRate}
+              onChange={handleChange}
+              step="0.1"
+              className="w-full px-4 py-3 bg-gray-900/50 border border-amber-500/20 rounded-lg text-white font-medium placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40 focus:border-amber-500/50 focus:bg-gray-900/80 transition-all duration-200 hover:border-amber-500/30"
+            />
           </div>
         </div>
 
         {/* Duration Section */}
-        <div className="space-y-5 group">
-          <div className="flex items-center gap-2">
-            <div className="w-1 h-6 bg-linear-to-b from-sky-400 to-sky-600 rounded-full"></div>
-            <h3 className="text-lg font-bold text-sky-400 tracking-wide">{t('duration')}</h3>
+        <div className="space-y-4">
+          <div className="flex items-center gap-2.5 mb-2">
+            <div className="w-0.5 h-5 bg-gradient-to-b from-sky-400 to-sky-500 rounded-full"></div>
+            <h3 className="text-sm font-bold text-sky-400 uppercase tracking-wider">{t('duration')}</h3>
           </div>
           <div className="space-y-2">
-            <label htmlFor="durationYears" className="block text-sm font-medium text-gray-200 tracking-wide">
+            <label htmlFor="durationYears" className="block text-xs font-semibold text-gray-400 uppercase tracking-wider">
               {t('years')}
             </label>
-            <div className="relative group">
-              <input
-                type="number"
-                id="durationYears"
-                name="durationYears"
-                value={formData.durationYears}
-                onChange={handleChange}
-                min="1"
-                max="100"
-                className="w-full px-5 py-3 bg-linear-to-br from-gray-800 to-gray-900 border-2 border-gray-700 rounded-xl text-white font-medium focus:ring-2 focus:ring-sky-500/50 focus:border-sky-500 transition-all duration-300 hover:border-sky-600/50 hover:shadow-lg hover:shadow-sky-500/10"
-              />
-              <div className="absolute inset-0 rounded-xl bg-linear-to-r from-sky-500/0 to-sky-500/0 group-focus-within:from-sky-500/5 group-focus-within:to-blue-500/5 pointer-events-none transition-all duration-300"></div>
-            </div>
+            <input
+              type="number"
+              id="durationYears"
+              name="durationYears"
+              value={formData.durationYears}
+              onChange={handleChange}
+              min="1"
+              max="100"
+              className="w-full px-4 py-3 bg-gray-900/50 border border-sky-500/20 rounded-lg text-white font-medium placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-sky-500/40 focus:border-sky-500/50 focus:bg-gray-900/80 transition-all duration-200 hover:border-sky-500/30"
+            />
           </div>
         </div>
       </div>
 
       {/* Goal Mode Section */}
-      <div className="pt-8 border-t border-gray-700/30 space-y-6">
-        <div className="flex items-center justify-between">
+      <div className="pt-6 border-t border-gray-700/20 space-y-5">
+        <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-1 h-8 bg-linear-to-b from-sky-400 to-blue-600 rounded-full"></div>
-            <h3 className="text-xl font-bold bg-linear-to-r from-sky-400 to-blue-400 bg-clip-text text-transparent">{gt('title')}</h3>
+            <div className="w-0.5 h-6 bg-gradient-to-b from-sky-400 to-blue-500 rounded-full"></div>
+            <h3 className="text-lg font-bold bg-gradient-to-r from-sky-400 to-blue-400 bg-clip-text text-transparent">{gt('title')}</h3>
           </div>
           <button
             type="button"
             onClick={() => setGoalMode(!goalMode)}
-            className={`relative px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-300 overflow-hidden group ${
-              goalMode 
-                ? 'bg-linear-to-r from-sky-500 to-blue-500 text-white shadow-lg shadow-sky-500/30' 
-                : 'bg-gray-800/80 text-gray-400 border-2 border-gray-700 hover:border-sky-500/50 hover:text-sky-400'
+            className={`relative px-5 py-2 rounded-lg text-xs font-bold transition-all duration-200 overflow-hidden group whitespace-nowrap ${goalMode 
+              ? 'bg-gradient-to-r from-sky-500 to-blue-500 text-white shadow-lg shadow-sky-500/20' 
+              : 'bg-gray-800 text-gray-400 border border-gray-700 hover:border-sky-500/40 hover:text-sky-400'
             }`}
           >
             <span className="relative z-10">{gt('enable')}</span>
-            {!goalMode && (
-              <div className="absolute inset-0 bg-linear-to-r from-sky-500/0 to-blue-500/0 group-hover:from-sky-500/10 group-hover:to-blue-500/10 transition-all duration-300"></div>
-            )}
           </button>
         </div>
 
         {goalMode && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-6 bg-linear-to-br from-sky-500/10 to-blue-500/10 border-2 border-sky-500/30 rounded-2xl backdrop-blur-sm">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-5 bg-gradient-to-br from-sky-500/8 to-blue-500/8 border border-sky-500/20 rounded-xl backdrop-blur-sm">
             <div className="space-y-5">
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-200 tracking-wide">{gt('targetAmount')}</label>
