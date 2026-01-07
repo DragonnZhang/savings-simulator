@@ -78,7 +78,7 @@ export default function ResultsTable({ results, onRowClick }: ResultsTableProps)
                     {row.year}
                   </span>
                   {row.isOverridden && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-[--nebula-gold]" title={t('overridden')}></span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#F5C065]" title={t('overridden')}></span>
                   )}
                 </div>
               </td>

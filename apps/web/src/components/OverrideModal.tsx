@@ -89,14 +89,14 @@ export default function OverrideModal({
           <button
             type="button"
             onClick={onClose}
-            className="flex-1 py-3 px-4 bg-[#27272A] text-[--nebula-text-muted] text-sm font-bold rounded-xl hover:bg-[#3F3F46] hover:text-white transition-all duration-200"
+            className="flex-1 py-3 px-4 bg-[#3F3F46] text-white text-sm font-bold rounded-xl hover:bg-[#52525B] border border-[#52525B] hover:border-[#71717A] transition-all duration-200"
           >
             {t('cancel')}
           </button>
           <button
             type="button"
             onClick={handleSave}
-            className="flex-1 py-3 px-4 bg-[--nebula-gold] text-black text-sm font-bold rounded-xl hover:bg-[#D4A017] hover:shadow-lg hover:shadow-[--nebula-gold-dim] transition-all duration-200"
+            className="flex-1 py-3 px-4 bg-[#F5C065] text-black text-sm font-bold rounded-xl hover:bg-[#D4A017] hover:shadow-lg hover:shadow-[rgba(245,192,101,0.1)] transition-all duration-200"
           >
             {t('save')}
           </button>

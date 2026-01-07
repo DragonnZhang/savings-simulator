@@ -275,7 +275,7 @@ export default function Home() {
              <div className="nebula-card p-6 border-t-4 border-t-[--nebula-gold]">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-lg font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[--nebula-gold]"></span>
+                    <span className="w-2 h-2 rounded-full bg-[#F5C065]"></span>
                     {t('configTitle')}
                   </h2>
                 </div>

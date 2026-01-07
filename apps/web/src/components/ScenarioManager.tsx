@@ -62,7 +62,7 @@ export default function ScenarioManager({
             <button
               onClick={handleSave}
               disabled={!newName.trim() || scenarios.length >= 3}
-              className="px-5 py-3 bg-[--nebula-gold] hover:bg-[#D4A017] disabled:bg-[#27272A] disabled:text-[#71717A] text-black text-sm font-bold rounded-xl transition-all shadow-lg hover:shadow-[--nebula-gold-dim] whitespace-nowrap"
+              className="px-5 py-3 bg-[#F5C065] hover:bg-[#D4A017] disabled:bg-[#3F3F46] disabled:!text-[#E4E4E7] disabled:border disabled:border-[#52525B] disabled:cursor-not-allowed text-[#1A1A1D] hover:text-black text-sm font-bold rounded-xl transition-all shadow-lg hover:shadow-[--nebula-gold-dim] disabled:shadow-none whitespace-nowrap select-none"
             >
               {t('saveCurrent')}
             </button>
@@ -112,7 +112,7 @@ export default function ScenarioManager({
                     type="checkbox"
                     checked={activeIds.includes(scenario.id)}
                     onChange={() => onToggle(scenario.id)}
-                    className="w-4 h-4 rounded appearance-none border border-[#71717A] bg-[#27272A] checked:bg-[--nebula-gold] checked:border-[--nebula-gold] focus:ring-1 focus:ring-[--nebula-gold] transition-all cursor-pointer relative after:content-[''] after:hidden checked:after:block after:absolute after:left-[5px] after:top-[1px] after:w-[5px] after:h-[10px] after:border-r-2 after:border-b-2 after:border-black after:rotate-45"
+                    className="w-4 h-4 rounded appearance-none border border-[#71717A] bg-[#27272A] checked:bg-[#F5C065] checked:border-[#F5C065] focus:ring-1 focus:ring-[#F5C065] transition-all cursor-pointer relative after:content-[''] after:hidden checked:after:block after:absolute after:left-[5px] after:top-[1px] after:w-[5px] after:h-[10px] after:border-r-2 after:border-b-2 after:border-black after:rotate-45"
                   />
                   <div
                     className="w-3 h-3 rounded-full shadow-[0_0_8px] shadow-current"

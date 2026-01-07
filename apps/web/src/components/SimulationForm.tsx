@@ -228,15 +228,15 @@ export default function SimulationForm({ onSubmit, onGoalChange, suggestedIncome
       <div className="pt-6 border-t border-[#2A2A2E] space-y-5">
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-1 h-1 bg-[--nebula-gold] rounded-full"></div>
+            <div className="w-1 h-1 bg-[#F5C065] rounded-full"></div>
             <h3 className="text-lg font-bold text-white">{gt('title')}</h3>
           </div>
           <button
             type="button"
             onClick={() => setGoalMode(!goalMode)}
-            className={`px-5 py-2 rounded-full text-xs font-bold transition-all duration-200 ${goalMode 
-              ? 'bg-[--nebula-gold] text-black shadow-lg shadow-[--nebula-gold-dim]' 
-              : 'bg-[#1A1A1D] text-gray-400 border border-[#2A2A2E] hover:text-white'
+            className={`px-5 py-2 rounded-full text-xs font-bold transition-all duration-200 select-none ${goalMode 
+              ? 'bg-[#F5C065] text-black shadow-lg shadow-[rgba(245,192,101,0.1)]' 
+              : 'bg-[#3F3F46] text-white border border-[#52525B] hover:bg-[#52525B]'
             }`}
           >
             {gt('enable')}
@@ -285,7 +285,7 @@ export default function SimulationForm({ onSubmit, onGoalChange, suggestedIncome
                     <button
                       type="button"
                       onClick={applySuggestion}
-                      className="w-full py-3 bg-[#27272A] hover:bg-[#3F3F46] text-white text-sm font-bold rounded-xl transition-all duration-300"
+                      className="w-full py-3 bg-[#F5C065] hover:bg-[#D4A017] text-black text-sm font-bold rounded-xl transition-all duration-300 select-none"
                     >
                       {gt('apply')}
                     </button>

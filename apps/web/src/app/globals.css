@@ -6,7 +6,7 @@
   --nebula-card: #141416;
   --nebula-card-hover: #1A1A1D;
   --nebula-border: #2A2A2E;
-  
+
   --nebula-gold: #F5C065;
   --nebula-gold-dim: rgba(245, 192, 101, 0.1);
   --nebula-gold-glow: rgba(245, 192, 101, 0.4);
@@ -20,7 +20,7 @@
 
   --background: var(--nebula-bg);
   --foreground: var(--nebula-text-primary);
-  
+
   --font-sans: 'Inter', system-ui, sans-serif;
 }
 
@@ -42,6 +42,24 @@ body {
   color: var(--nebula-text-primary);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+}
+
+/* Text selection colors */
+::selection {
+  background-color: var(--nebula-gold);
+  color: #0B0B0F;
+}
+
+::-moz-selection {
+  background-color: var(--nebula-gold);
+  color: #0B0B0F;
+}
+
+/* Input selection colors for better visibility */
+input::selection,
+textarea::selection {
+  background-color: var(--nebula-gold);
+  color: #0B0B0F;
 }
 
 /* Card Styles */
@@ -76,7 +94,8 @@ body {
 .nebula-btn {
   background-color: #27272A;
   color: white;
-  border-radius: 9999px; /* Pill shape */
+  border-radius: 9999px;
+  /* Pill shape */
   font-weight: 500;
   transition: all 0.2s;
 }
@@ -102,13 +121,16 @@ body {
   width: 6px;
   height: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #333;
   border-radius: 3px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #444;
 }
