@@ -1,0 +1,27 @@
+# Allow all search engines to crawl the site
+User-agent: *
+Allow: /
+
+# Specific rules for Google
+User-agent: Googlebot
+Allow: /
+
+# Specific rules for Baidu (important for Chinese search)
+User-agent: Baiduspider
+Allow: /
+
+# Specific rules for other major search engines
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Disallow crawling of private areas (if any)
+Disallow: /admin
+Disallow: /.next
+Disallow: /api
+
+# Sitemap location
+Sitemap: https://dragonnzhang.github.io/savings-simulator/sitemap.xml
+Sitemap: https://dragonnzhang.github.io/savings-simulator/sitemap-zh.xml
