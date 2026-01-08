@@ -23,5 +23,4 @@ Disallow: /.next
 Disallow: /api
 
 # Sitemap location
-Sitemap: https://dragonnzhang.github.io/savings-simulator/sitemap.xml
-Sitemap: https://dragonnzhang.github.io/savings-simulator/sitemap-zh.xml
+Sitemap: https://savings.abrdns.com/sitemap.xml

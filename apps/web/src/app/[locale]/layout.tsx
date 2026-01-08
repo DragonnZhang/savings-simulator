@@ -29,14 +29,14 @@ export function generateMetadata({ params }: { params: Promise<{ locale: string 
       keywords: ["积蓄模拟器", "财务规划", "储蓄计算器", "财务自由", "投资回报", "财务目标", "理财工具", "FIRE", "财务独立"],
       alternates: {
         languages: {
-          en: "https://dragonnzhang.github.io/savings-simulator/en",
-          zh: "https://dragonnzhang.github.io/savings-simulator/zh",
+          en: "https://savings.abrdns.com/en",
+          zh: "https://savings.abrdns.com/zh",
         },
       },
       openGraph: {
         title: "积蓄模拟器 - 财务规划工具",
         description: "通过交互式模拟器规划您的财务未来。可视化储蓄增长，支持年度调整和多场景对比。",
-        url: "https://dragonnzhang.github.io/savings-simulator/zh",
+        url: "https://savings.abrdns.com/zh",
         siteName: "积蓄模拟器",
         locale: "zh_CN",
         type: "website",
@@ -61,14 +61,14 @@ export function generateMetadata({ params }: { params: Promise<{ locale: string 
       keywords: ["savings simulator", "financial planning", "savings calculator", "financial freedom", "investment returns", "financial goals", "wealth growth", "FIRE", "financial independence"],
       alternates: {
         languages: {
-          en: "https://dragonnzhang.github.io/savings-simulator/en",
-          zh: "https://dragonnzhang.github.io/savings-simulator/zh",
+          en: "https://savings.abrdns.com/en",
+          zh: "https://savings.abrdns.com/zh",
         },
       },
       openGraph: {
         title: "Savings Simulator - Financial Planning Tool",
         description: "Plan your financial future with our interactive savings simulator. Visualize growth, adjust by year, and compare scenarios.",
-        url: "https://dragonnzhang.github.io/savings-simulator/en",
+        url: "https://savings.abrdns.com/en",
         siteName: "Savings Simulator",
         locale: "en_US",
         type: "website",
@@ -125,13 +125,13 @@ export default async function RootLayout({
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         
         {/* Canonical URL */}
-        <link rel="canonical" href={`https://dragonnzhang.github.io/savings-simulator/${locale}`} />
+        <link rel="canonical" href={`https://savings.abrdns.com/${locale}`} />
         
         {/* Alternate language links */}
-        <link rel="alternate" hrefLang="en" href="https://dragonnzhang.github.io/savings-simulator/en" />
-        <link rel="alternate" hrefLang="zh" href="https://dragonnzhang.github.io/savings-simulator/zh" />
-        <link rel="alternate" hrefLang="zh-CN" href="https://dragonnzhang.github.io/savings-simulator/zh" />
-        <link rel="alternate" hrefLang="x-default" href="https://dragonnzhang.github.io/savings-simulator" />
+        <link rel="alternate" hrefLang="en" href="https://savings.abrdns.com/en" />
+        <link rel="alternate" hrefLang="zh" href="https://savings.abrdns.com/zh" />
+        <link rel="alternate" hrefLang="zh-CN" href="https://savings.abrdns.com/zh" />
+        <link rel="alternate" hrefLang="x-default" href="https://savings.abrdns.com" />
         
         {/* Google Search Console verification (if needed) */}
         {/* <meta name="google-site-verification" content="your-verification-code" /> */}

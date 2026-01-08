@@ -11,8 +11,8 @@ export const StructuredData: FC<StructuredDataProps> = ({ locale }) => {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: isZh ? '积蓄模拟器' : 'Savings Simulator',
-    url: 'https://dragonnzhang.github.io/savings-simulator',
-    logo: 'https://dragonnzhang.github.io/savings-simulator/og-image.png',
+    url: 'https://savings.abrdns.com',
+    logo: 'https://savings.abrdns.com/vercel.svg',
     sameAs: [
       'https://github.com/DragonnZhang/savings-simulator',
     ],
@@ -25,7 +25,7 @@ export const StructuredData: FC<StructuredDataProps> = ({ locale }) => {
     description: isZh 
       ? '通过交互式模拟器规划您的财务未来。可视化储蓄增长，支持年度调整和多场景对比。'
       : 'Plan your financial future with our interactive savings simulator. Visualize savings growth with customizable parameters and scenario comparisons.',
-    url: `https://dragonnzhang.github.io/savings-simulator/${locale}`,
+    url: `https://savings.abrdns.com/${locale}`,
     applicationCategory: 'FinanceApplication',
     offers: {
       '@type': 'Offer',
