@@ -141,6 +141,7 @@ const initialState: AppState = {
 
 export default function Home() {
   const t = useTranslations('Index');
+  const nav = useTranslations('Navigation');
   const [state, dispatch] = useReducer(reducer, initialState);
   const [modalState, setModalState] = useState<{
     isOpen: boolean;
@@ -258,9 +259,8 @@ export default function Home() {
           </div>
           
           <nav className="hidden md:flex bg-[#141416] p-1.5 rounded-full border border-[#2A2A2E]">
-            <button className="px-6 py-2 rounded-full bg-[--nebula-bg] text-white shadow-md font-medium text-sm border border-[#27272A]">Dashboard</button>
-            <button className="px-6 py-2 rounded-full text-gray-500 hover:text-white font-medium text-sm transition-colors">Reports</button>
-             <button className="px-6 py-2 rounded-full text-gray-500 hover:text-white font-medium text-sm transition-colors">Settings</button>
+            <button className="px-6 py-2 rounded-full bg-[--nebula-bg] text-white shadow-md font-medium text-sm border border-[#27272A]">{nav('dashboard')}</button>
+            <button className="px-6 py-2 rounded-full text-gray-500 hover:text-white font-medium text-sm transition-colors">{nav('reports')}</button>
           </nav>
 
           <div className="flex items-center gap-4">

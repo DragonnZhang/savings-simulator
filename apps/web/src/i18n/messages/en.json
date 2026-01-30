@@ -8,6 +8,10 @@
     "finalSavings": "Final Savings",
     "rowClickTip": "💡 Click any row to adjust parameters for that year"
   },
+  "Navigation": {
+    "dashboard": "Dashboard",
+    "reports": "Reports"
+  },
   "Form": {
     "income": "Income",
     "annualIncome": "Annual Income",

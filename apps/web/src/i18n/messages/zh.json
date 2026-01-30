@@ -8,18 +8,22 @@
     "finalSavings": "最终积蓄",
     "rowClickTip": "💡 点击任意行可调整该年参数"
   },
+  "Navigation": {
+    "dashboard": "仪表盘",
+    "reports": "报告"
+  },
   "Form": {
-    "income": "收入 Income",
-    "annualIncome": "年收入 (Annual Income)",
-    "annualSalaryGrowth": "薪资年涨幅 (Salary Growth %)",
-    "annualInflation": "年通胀率 (Inflation Rate %)",
-    "expenses": "支出 Expenses",
-    "annualExpenses": "年支出 (Annual Expenses)",
-    "annualExpenseGrowth": "支出年涨幅 (Expense Growth %)",
-    "investment": "投资 Investment",
-    "annualReturn": "年化收益率 (Annual Return %)",
-    "duration": "时长 Duration",
-    "years": "模拟年数 (Years)"
+    "income": "收入",
+    "annualIncome": "年收入",
+    "annualSalaryGrowth": "薪资年涨幅",
+    "annualInflation": "年通胀率",
+    "expenses": "支出",
+    "annualExpenses": "年支出",
+    "annualExpenseGrowth": "支出年涨幅",
+    "investment": "投资",
+    "annualReturn": "年化收益率",
+    "duration": "时长",
+    "years": "模拟年数"
   },
   "Table": {
     "year": "年份",
@@ -34,8 +38,8 @@
   },
   "Modal": {
     "title": "调整第 {year} 年参数",
-    "income": "年收入 (Income)",
-    "expenses": "年支出 (Expenses)",
+    "income": "年收入",
+    "expenses": "年支出",
     "cancel": "取消",
     "save": "保存"
   },
@@ -51,7 +55,7 @@
     "compare": "对比"
   },
   "Goal": {
-    "title": "目标模式 (Goal Mode)",
+    "title": "目标模式",
     "enable": "启用目标反推",
     "targetAmount": "预期目标金额",
     "targetYear": "目标达成年份",
