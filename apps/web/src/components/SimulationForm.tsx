@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
+import { usePathname } from 'next/navigation';
 
 interface FormData {
   initialIncome: number;
@@ -33,6 +34,9 @@ const defaultValues: FormData = {
 export default function SimulationForm({ onSubmit, onGoalChange, suggestedIncome, initialData }: SimulationFormProps) {
   const t = useTranslations('Form');
   const gt = useTranslations('Goal');
+  const pathname = usePathname();
+  const locale = pathname.split('/')[1];
+  const currencySymbol = locale === 'zh' ? '¥' : '$';
 
   const [formData, setFormData] = useState<FormData>({
     ...defaultValues,
@@ -98,7 +102,7 @@ export default function SimulationForm({ onSubmit, onGoalChange, suggestedIncome
               {t('annualIncome')}
             </label>
             <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold">¥</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold">{currencySymbol}</span>
                 <input
                   type="number"
                   id="initialIncome"
@@ -136,7 +140,7 @@ export default function SimulationForm({ onSubmit, onGoalChange, suggestedIncome
               {t('annualExpenses')}
             </label>
             <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold">¥</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold">{currencySymbol}</span>
                 <input
                   type="number"
                   id="initialExpenses"
@@ -249,7 +253,7 @@ export default function SimulationForm({ onSubmit, onGoalChange, suggestedIncome
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-400 tracking-wide">{gt('targetAmount')}</label>
                 <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold">¥</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold">{currencySymbol}</span>
                     <input
                         type="number"
                         name="targetAmount"
@@ -278,9 +282,9 @@ export default function SimulationForm({ onSubmit, onGoalChange, suggestedIncome
                 <div className="relative bg-[#0F0F11] p-6 rounded-2xl border border-[--nebula-gold] shadow-[--nebula-gold-dim]">
                   <div className="relative z-10">
                     <p className="text-xs font-medium text-[--nebula-gold] uppercase tracking-wider mb-2">{gt('suggestedAnnual')}</p>
-                    <p className="text-3xl font-extrabold text-white mb-2">¥{suggestedIncome.toLocaleString()}</p>
+                    <p className="text-3xl font-extrabold text-white mb-2">{currencySymbol}{suggestedIncome.toLocaleString()}</p>
                     <p className="text-sm text-gray-400 mb-4">
-                      {gt('suggestedMonthly')}: <span className="text-white font-semibold">¥{Math.round(suggestedIncome / 12).toLocaleString()}</span>
+                      {gt('suggestedMonthly')}: <span className="text-white font-semibold">{currencySymbol}{Math.round(suggestedIncome / 12).toLocaleString()}</span>
                     </p>
                     <button
                       type="button"

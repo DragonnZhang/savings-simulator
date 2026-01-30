@@ -8,6 +8,8 @@ import SavingsChart from '@/components/SavingsChart';
 import OverrideModal from '@/components/OverrideModal';
 import GitHubLink from '@/components/GitHubLink';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { calculate, goalSeek } from 'savings-core';
 import type { SimulationConfig, YearlyOverride, YearlyResult, Scenario } from 'savings-core';
 import ScenarioManager from '@/components/ScenarioManager';
@@ -158,20 +160,30 @@ export default function Home() {
   const [isMounted, setIsMounted] = useState(false);
   const [goalSuggest, setGoalSuggest] = useState<number | undefined>(undefined);
 
+  // Get current locale for navigation and currency
+  const pathname = usePathname();
+  const locale = pathname.split('/')[1];
+  const currencySymbol = locale === 'zh' ? '¥' : '$';
+
   // Load scenarios on mount
   useEffect(() => {
-    setIsMounted(true);
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('scenarios_v1');
-      if (saved) {
-        try {
-          const scenarios = JSON.parse(saved);
-          dispatch({ type: 'LOAD_SCENARIOS', scenarios });
-        } catch (e) {
-          console.error('Failed to load scenarios', e);
+    // Use a small timeout to avoid synchronous setState during render
+    const timer = setTimeout(() => {
+      setIsMounted(true);
+      if (typeof window !== 'undefined') {
+        const saved = localStorage.getItem('scenarios_v1');
+        if (saved) {
+          try {
+            const scenarios = JSON.parse(saved);
+            dispatch({ type: 'LOAD_SCENARIOS', scenarios });
+          } catch (e) {
+            console.error('Failed to load scenarios', e);
+          }
         }
       }
-    }
+    }, 0);
+
+    return () => clearTimeout(timer);
   }, []);
 
   const handleSimulate = useCallback((config: SimulationConfig) => {
@@ -249,7 +261,7 @@ export default function Home() {
        {/* Top Navigation Bar */}
        <header className="flex flex-col md:flex-row justify-between items-center mb-8 gap-6 animate-[fadeIn_0.5s_ease-out]">
           <div className="flex items-center gap-4">
-             <div className="w-12 h-12 rounded-full bg-linear-to-br from-[--nebula-gold] to-orange-500 flex items-center justify-center shadow-lg shadow-[--nebula-gold-dim]">
+             <div className="w-12 h-12 rounded-full bg-linear-to-br from-[--nebula-gold] to-orange-500 flex items-center justify-center shadow-[--nebula-gold-dim]">
                <span className="text-black font-bold text-xl">S</span>
              </div>
              <div>
@@ -257,10 +269,27 @@ export default function Home() {
                 <p className="text-xs text-gray-500 font-medium uppercase tracking-widest">Financial Simulator</p>
              </div>
           </div>
-          
+
+          {/* Desktop Navigation */}
           <nav className="hidden md:flex bg-[#141416] p-1.5 rounded-full border border-[#2A2A2E]">
             <button className="px-6 py-2 rounded-full bg-[--nebula-bg] text-white shadow-md font-medium text-sm border border-[#27272A]">{nav('dashboard')}</button>
-            <button className="px-6 py-2 rounded-full text-gray-500 hover:text-white font-medium text-sm transition-colors">{nav('reports')}</button>
+            <Link
+              href={`/${locale}/reports`}
+              className="px-6 py-2 rounded-full text-gray-500 hover:text-white font-medium text-sm transition-colors"
+            >
+              {nav('reports')}
+            </Link>
+          </nav>
+
+          {/* Mobile Navigation */}
+          <nav className="flex md:hidden bg-[#141416] p-1.5 rounded-full border border-[#2A2A2E]">
+            <button className="px-4 py-2 rounded-full bg-[--nebula-bg] text-white shadow-md font-medium text-xs border border-[#27272A]">{nav('dashboard')}</button>
+            <Link
+              href={`/${locale}/reports`}
+              className="px-4 py-2 rounded-full text-gray-500 hover:text-white font-medium text-xs transition-colors"
+            >
+              {nav('reports')}
+            </Link>
           </nav>
 
           <div className="flex items-center gap-4">
@@ -312,7 +341,7 @@ export default function Home() {
                       <div>
                           <p className="text-gray-400 font-medium mb-2 uppercase text-xs tracking-wider">{t('finalSavings')}</p>
                           <div className="text-4xl lg:text-5xl font-bold text-white tracking-tight">
-                             {state.totalSavings > 0 ? `¥${state.totalSavings.toLocaleString()}` : formattedNull()}
+                             {state.totalSavings > 0 ? `${currencySymbol}${state.totalSavings.toLocaleString()}` : formattedNull()}
                           </div>
                       </div>
                       <div className="mt-4 flex items-center gap-2">

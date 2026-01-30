@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
+import { usePathname } from 'next/navigation';
 
 interface OverrideModalProps {
   isOpen: boolean;
@@ -23,6 +24,10 @@ export default function OverrideModal({
   const t = useTranslations('Modal');
   const [income, setIncome] = useState(currentIncome.toString());
   const [expenses, setExpenses] = useState(currentExpenses.toString());
+
+  const pathname = usePathname();
+  const locale = pathname.split('/')[1];
+  const currencySymbol = locale === 'zh' ? '¥' : '$';
 
   if (!isOpen) return null;
 
@@ -58,7 +63,7 @@ export default function OverrideModal({
               {t('income')}
             </label>
             <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[--nebula-text-muted] font-bold">¥</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[--nebula-text-muted] font-bold">{currencySymbol}</span>
                 <input
                   type="number"
                   id="modal-income"
@@ -73,7 +78,7 @@ export default function OverrideModal({
               {t('expenses')}
             </label>
             <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[--nebula-text-muted] font-bold">¥</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[--nebula-text-muted] font-bold">{currencySymbol}</span>
                 <input
                   type="number"
                   id="modal-expenses"
